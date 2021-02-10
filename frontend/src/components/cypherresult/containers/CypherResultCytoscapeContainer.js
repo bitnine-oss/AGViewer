@@ -23,14 +23,16 @@ const mapStateToProps = (state, ownProps) => {
     const { refKey } = ownProps
 
     const generateElements = () => {
-        return generateCytoscapeElement(state.cypher.queryResult[refKey], false)
+        return generateCytoscapeElement(state.cypher.queryResult[refKey]['rows'], state.setting.maxDataOfGraph, false)
 
     }
     return {
-        data: generateElements()
+        data: generateElements(),
+        maxDataOfGraph: state.setting.maxDataOfGraph,
+        maxDataOfTable: state.setting.maxDataOfTable
     }
 }
 
 const mapDispatchToProps = { setLabels }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CypherResultCytoscape);
+export default connect(mapStateToProps, mapDispatchToProps, null ,{ forwardRef: true })(CypherResultCytoscape);

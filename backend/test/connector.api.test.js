@@ -1,15 +1,16 @@
-const app = require('../server/app');
+const app = require('../app');
 const request = require('supertest');
 const session = require('supertest-session');
 const assert = require('assert').strict;
+import connectParam from './connectParam';
 
-let connectParam = {
-    host: '192.168.0.68',
-    port: 15432,
-    database: 'covid19',
-    graph: 'corona_spread',
-    user: 'consulting',
-    password: 'bitnine123!',
+const wrongConnectParam = {
+    host: '172.30.1.1',
+    port: 1234,
+    database: 'agensgraph',
+    graph: 'agensgraph',
+    user: 'agensgraph',
+    password: 'agensgraph',
 };
 
 describe('Test Connector Api', () => {
@@ -30,17 +31,9 @@ describe('Test Connector Api', () => {
     });
 
     it('Execute Wrong Connect', (done) => {
-        let wrongParam = {
-            host: '192.168.0.68',
-            port: 15432,
-            database: 'covid19',
-            graph: 'corona_spread22',
-            user: 'consulting',
-            password: 'bitnine123!',
-        };
         request(app)
             .post(`${mappingUrl}/connect`)
-            .send(wrongParam)
+            .send(wrongConnectParam)
             .expect(500)
             .end((err, res) => {
                 if (err) done(err);
@@ -136,6 +129,18 @@ describe('Test Connector Api', () => {
                     done();
                 });
         });
+        it('Get MetaChart', (done) => {
+            sessionRequest
+                .get(`${mappingUrl}/metaChart`)
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) done(err);
+                    console.log(res.body);
+                    assert(!!res.body);
+                    done();
+                });
+        });
     });
 
     it('Test Get Metadata NotConnected', (done) => {
@@ -151,18 +156,10 @@ describe('Test Connector Api', () => {
 
     describe('잘못된 연결 후, 정상 연결 시 잘못된 연결데이터 전달', () => {
         const sessionRequest = session(app);
-        let wrongParam = {
-            host: '192.168.0.1',
-            port: 1432,
-            database: 'covid19',
-            graph: 'corona_spread',
-            user: 'consulting',
-            password: 'bitnine123!',
-        };
         before(function (done) {
             sessionRequest
                 .post(`${mappingUrl}/connect`)
-                .send(wrongParam)
+                .send(wrongConnectParam)
                 .expect('Content-Type', /json/)
                 .expect(500)
                 .end((err, res) => {

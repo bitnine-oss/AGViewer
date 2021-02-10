@@ -1,4 +1,4 @@
-OpenGraphBrowser
+[한국어](./README-ko.md)
 
 # Command
 1. **npm run setup**

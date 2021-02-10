@@ -1,16 +1,7 @@
-const app = require('../server/app');
+const app = require('../app');
 const request = require('supertest');
 const session = require('supertest-session');
-const assert = require('assert').strict;
-
-let connectParam = {
-    host: '192.168.0.68',
-    port: 15432,
-    database: 'covid19',
-    graph: 'corona_spread',
-    user: 'consulting',
-    password: 'bitnine123!',
-};
+import connectParam from "./connectParam";
 
 let queryParam = {
     cmd: 'MATCH(a:person)-[e] ->(b) return a, e, b limit 10',

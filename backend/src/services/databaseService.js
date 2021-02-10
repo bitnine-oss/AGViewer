@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-const sessionManager = require('./sessionService');
 const AgensGraphRepository = require('../models/agensgraph/agensGraphRepository');
 
-class ConnectorService {
-    constructor() {}
+class DatabaseService {
+    constructor() {
+        this._agensDatabaseHelper = null;
+    }
 
     async getMetaData() {
-        let metadata = new Object();
+        let metadata = {};
         try {
             let connectionInfo = this.getConnectionInfo();
             metadata.nodes = await this.getNodes();
@@ -34,6 +35,43 @@ class ConnectorService {
             throw error;
         }
         return metadata;
+    }
+
+    async getGraphLabels() {
+        let agensDatabaseHelper = this._agensDatabaseHelper;
+        let queryResult = {};
+        try {
+            let query = [];
+            query.push("SELECT l.labid as la_oid, l.labname as la_name, l.labkind as la_kind");
+            query.push("FROM PG_CATALOG.AG_LABEL l");
+            query.push("INNER JOIN PG_CATALOG.AG_GRAPH g ON g.oid = l.graphid");
+            query.push("WHERE g.graphname = $1");
+            query.push("and l.labname not in ('ag_vertex', 'ag_edge')");
+
+            queryResult = await agensDatabaseHelper.execute(query.join('\n'), [this.getConnectionInfo().graph]);
+        } catch (error) {
+            throw error;
+        }
+
+        return queryResult.rows;
+    }
+
+    async getGraphLabelCount(labelName, labelKind) {
+        let agensDatabaseHelper = this._agensDatabaseHelper;
+        let query = [];
+
+        if (labelKind === 'v') {
+            query.push('SELECT COUNT(1) AS la_count');
+            query.push('FROM ' + this.getConnectionInfo().graph + "." + labelName);
+        } else if (labelKind === 'e') {
+            query.push('SELECT SPLIT_PART(start::text, \'.\', 1) AS la_start, SPLIT_PART("end"::text, \'.\', 1) AS la_end, COUNT(1) AS la_count');
+            query.push('FROM ' + this.getConnectionInfo().graph + "." + labelName);
+            query.push('GROUP BY SPLIT_PART(start::text, \'.\', 1), SPLIT_PART("end"::text, \'.\', 1)');
+        }
+
+        let queryResult = await agensDatabaseHelper.execute(query.join('\n'));
+
+        return queryResult.rows;
     }
 
     async getNodes() {
@@ -95,13 +133,11 @@ class ConnectorService {
             agensDatabaseHelper = this._agensDatabaseHelper;
         }
 
-        try {
-            await agensDatabaseHelper.isHealth();
-            return true;
-        } catch(err) {
+        const isHealth = await agensDatabaseHelper.isHealth();
+        if (isHealth === false) {
             this._agensDatabaseHelper = null;
-            throw err;
         }
+        return isHealth;
     }
 
     async disconnectDatabase() {
@@ -123,7 +159,7 @@ class ConnectorService {
 
     async getConnectionStatus() {
         let agensDatabaseHelper = this._agensDatabaseHelper;
-        if(agensDatabaseHelper == null) {
+        if (agensDatabaseHelper == null) {
             return false;
         }
 
@@ -136,6 +172,8 @@ class ConnectorService {
     }
 
     getConnectionInfo() {
+        if(this.isConnected() === false)
+            throw new Error("Not connected");
         return this._agensDatabaseHelper.getConnectionInfo();
     }
 
@@ -147,7 +185,7 @@ class ConnectorService {
         return this._agensDatabaseHelper;
     }
 
-    convertEdge({ label, id, start, end, props }) {
+    convertEdge({label, id, start, end, props}) {
         return {
             label: label,
             id: `${id.oid}.${id.id}`,
@@ -157,7 +195,7 @@ class ConnectorService {
         };
     }
 
-    convertVertex({ label, id, props }) {
+    convertVertex({label, id, props}) {
         return {
             label: label,
             id: `${id.oid}.${id.id}`,
@@ -166,4 +204,4 @@ class ConnectorService {
     }
 }
 
-module.exports = ConnectorService;
+module.exports = DatabaseService;

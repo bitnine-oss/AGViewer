@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const MenuSlice = createSlice({
   name: 'navigator',
   initialState: {
-    menuList: [['home', 'home'], ['setting', 'cog']],
+    menuList: [['home', 'home'], ['setting', 'cog'], ['about', 'info-circle']],
     activeMenu: 'init',
     isActive: false
   },
@@ -41,6 +41,6 @@ const MenuSlice = createSlice({
   }
 })
 
-export const { toggleMenu } = MenuSlice.actions
+export const { toggleMenu } = MenuSlice.actions;
 
-export default MenuSlice.reducer
+export default MenuSlice.reducer;

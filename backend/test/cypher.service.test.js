@@ -1,28 +1,20 @@
-const app = require('../server/app');
+const app = require('../app');
 const session = require('supertest-session');
 const assert = require('assert').strict;
 
 const request = session(app);
-
-let connectParam = {
-    host: '192.168.0.68',
-    port: 15432,
-    database: 'covid19',
-    graph: 'corona_spread',
-    user: 'consulting',
-    password: 'bitnine123!',
-};
+import connectParam from "./connectParam";
 
 let dbUrl = '/api/v1/db';
 let cypherUrl = '/api/v1/cypher';
 
-let matchQuery = { cmd: 'match (v)-[r]->(v2) return * limit 1' };
-let countQuery = { cmd: "MATCH(p:person) WHERE p.id = 'TEST' RETURN count(p)" };
-let createQuery = { cmd: "CREATE(p:person {id: 'TEST'})" };
-let deleteQuery = { cmd: "MATCH(p:person) WHERE p.id = 'TEST' DELETE p" };
-let setQuery = { cmd: '' };
+let matchQuery = {cmd: 'match (v)-[r]->(v2) return * limit 1'};
+let countQuery = {cmd: "MATCH(p:person) WHERE p.id = 'TEST' RETURN count(p)"};
+let createQuery = {cmd: "CREATE(p:person {id: 'TEST'})"};
+let deleteQuery = {cmd: "MATCH(p:person) WHERE p.id = 'TEST' DELETE p"};
+let setQuery = {cmd: ''};
 
-let pathQuery = { cmd: 'match p = (v)- [r]->(v2) return p limit 1;' };
+let pathQuery = {cmd: 'match p = (v)- [r]->(v2) return p limit 1;'};
 
 let createTableQuery = {
     cmd:

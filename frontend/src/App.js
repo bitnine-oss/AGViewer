@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import MainPage from './pages/Main/MainPage'
-
+import React from "react";
+import MainPage from "./pages/Main/MainPage";
 
 const App = () => {
     return (
-        <MainPage />
+            <MainPage />
     );
 }
 
-export default App
+export default App;
