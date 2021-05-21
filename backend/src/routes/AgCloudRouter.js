@@ -15,13 +15,14 @@
  */
 
 import {Router} from "express";
-import CypherController from "../controllers/CypherController";
+import AgCloudController from "../controllers/AgCloudController";
 import {wrap} from '../common/Routes';
 
 const router = Router();
-const cypherController = new CypherController();
+const agCloudController = new AgCloudController();
+
 
 // Execute Cypher Query
-router.post("/", wrap(cypherController.executeCypher));
+router.post("/", wrap(agCloudController.connectDatabase));
 
 export default router;

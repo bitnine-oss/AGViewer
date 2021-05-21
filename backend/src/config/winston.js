@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const fs = require('fs');
-const winston = require('winston');
-const winstonDaily = require('winston-daily-rotate-file');
+import fs from 'fs';
+import winston from 'winston';
+import winstonDaily from 'winston-daily-rotate-file';
 
 const logDir = process.env.LOG_DIR || 'logs';
-const { combine, timestamp, printf } = winston.format;
+const {combine, timestamp, printf} = winston.format;
 
 const logFormat = printf((info) => {
     return `${info.timestamp} ${info.level}: ${info.message}`;
@@ -46,7 +46,7 @@ const errorTransport = new winstonDaily({
     zippedArchive: true,
 });
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
     format: combine(
         timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
@@ -56,7 +56,7 @@ const logger = winston.createLogger({
     transports: [infoTransport, errorTransport],
 });
 
-const stream = {
+export const stream = {
     write: (message) => {
         logger.info(message);
     },
@@ -69,5 +69,3 @@ if (process.env.NODE_ENV !== 'production') {
         })
     );
 }
-
-module.exports = { logger, stream };

@@ -17,8 +17,10 @@
 import Flavors from "../config/Flavors";
 
 class CypherService {
+    agensDatabaseHelper = null;
+
     constructor(agensDatabaseHelper) {
-        this._agensDatabaseHelper = agensDatabaseHelper;
+        this.agensDatabaseHelper = agensDatabaseHelper;
     }
 
     async executeCypher(query) {
@@ -26,7 +28,7 @@ class CypherService {
             throw new Error('Query not entered!');
         } else {
             try {
-                let resultSet = await this._agensDatabaseHelper.execute(query);
+                let resultSet = await this.agensDatabaseHelper.execute(query);
                 return this.createResult(resultSet);
             } catch (err) {
                 throw err;
@@ -35,33 +37,25 @@ class CypherService {
     }
 
     createResult(resultSet) {
-        let result = {
-            rows: null,
-            columns: null,
-            rowCount: null,
-            command: null,
-        };
-
         let targetItem = resultSet;
         if (Array.isArray(resultSet)) {
             targetItem = resultSet.pop();
         }
 
         let cypherRow = targetItem.rows;
-        if(this._agensDatabaseHelper.flavor === Flavors.AGENS){
+        if (this.agensDatabaseHelper.flavor === Flavors.AGENS) {
             try {
                 cypherRow = this._convertRowToResult(targetItem)
             } catch (e) {
                 console.error("FixMe!")
             }
         }
-        result = {
+        return {
             rows: cypherRow,
             columns: this._getColumns(targetItem),
             rowCount: this._getRowCount(targetItem),
             command: this._getCommand(targetItem),
         };
-        return result;
     }
 
     _getColumns(resultSet) {
@@ -78,24 +72,24 @@ class CypherService {
 
     _convertRowToResult(resultSet) {
         return resultSet.rows.map((row) => {
-            let convetedObject = {};
+            let convertedObject = {};
             for (let k in row) {
                 let typeName = row[k].constructor.name;
                 if (typeName === 'Path') {
-                    convetedObject[k] = this.convertPath(row[k]);
+                    convertedObject[k] = this.convertPath(row[k]);
                 } else if (typeName === 'Vertex') {
-                    convetedObject[k] = this.convertVertex(row[k]);
+                    convertedObject[k] = this.convertVertex(row[k]);
                 } else if (typeName === 'Edge') {
-                    convetedObject[k] = this.convertEdge(row[k]);
+                    convertedObject[k] = this.convertEdge(row[k]);
                 } else {
-                    convetedObject[k] = row[k];
+                    convertedObject[k] = row[k];
                 }
             }
-            return convetedObject;
+            return convertedObject;
         });
     }
 
-    convertPath({vertices, edges, start, end, len}) {
+    convertPath({vertices, edges}) {
         let result = [];
         // vertex
         for (let idx in vertices) {
@@ -128,4 +122,4 @@ class CypherService {
     }
 }
 
-module.exports = CypherService;
+export default CypherService;

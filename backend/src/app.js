@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-const express = require('express');
-const cors = require('cors');
-const session = require('express-session');
-const uuid = require('node-uuid');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const {stream} = require('./config/winston');
-const cypherRouter = require('./routes/cypherRouter');
-const databaseRouter = require('./routes/databaseRouter');
-const agcloudRouter = require('./routes/agcloudRouter');
-const sessionRouter = require('./routes/sessionRouter');
+import express from 'express';
+import cors from 'cors';
+
+import session from 'express-session'
+import {v4 as UUIDv4} from 'uuid'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+import {stream} from './config/winston'
+import cypherRouter from './routes/cypherRouter'
+import databaseRouter from './routes/databaseRouter'
+import AgCloudRouter from './routes/AgCloudRouter'
+import sessionRouter from './routes/sessionRouter'
+
 const app = express();
 
 app.use(cors({
@@ -45,7 +47,7 @@ app.use(
         saveUninitialized: true,
         proxy: true,
         genid: (req) => {
-            return uuid.v1();
+            return UUIDv4();
         },
     })
 );
@@ -54,7 +56,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/agensviewer', sessionRouter, agcloudRouter);
+app.use('/agensviewer', sessionRouter, AgCloudRouter);
 app.use('/api/v1/*', sessionRouter);
 app.use('/api/v1/cypher', cypherRouter);
 app.use('/api/v1/db', databaseRouter);
@@ -70,4 +72,5 @@ process.on('uncaughtException', function (exception) {
     console.log(exception);
 });
 
-module.exports = app;
+
+export default app;

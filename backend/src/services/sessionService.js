@@ -15,21 +15,20 @@
  */
 
 class SessionService {
-    constructor() {
-        this._sessionMap = new Map();
-    }
+    sessionMap = new Map();
 
     put(key, value) {
-        this._sessionMap.set(key, value);
+        this.sessionMap.set(key, value);
     }
 
     get(key) {
-        if(!this._sessionMap.get(key)) {
+        if (!this.sessionMap.get(key)) {
             return null;
         }
-        return this._sessionMap.get(key);
+        return this.sessionMap.get(key);
     }
 }
+
 const sessionService = new SessionService();
 
-module.exports = sessionService;
+export default sessionService;

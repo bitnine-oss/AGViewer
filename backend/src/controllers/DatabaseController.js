@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const sessionService = require('../services/sessionService');
-const winston = require('winston');
+import sessionService from '../services/sessionService';
 
-class DatabseController {
+export default class DatabaseController {
 
     async connectDatabase(req, res, next) {
         let databaseService = sessionService.get(req.sessionID);
@@ -87,5 +86,3 @@ class DatabseController {
         }
     }
 }
-
-module.exports = DatabseController;

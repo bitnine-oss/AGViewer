@@ -16,25 +16,36 @@
 
 import Flavors from '../../config/Flavors';
 import PgConfig from '../../config/Pg'
-
-require('@bitnine-oss/ag-driver');
 import pg from 'pg';
 import types from 'pg-types';
 import {setAGETypes} from '../../tools/AGEParser';
 
+require('@bitnine-oss/ag-driver');
+
 
 class AgensGraphRepository {
+    host = null;
+    port = 5432;
+    database = null;
+    graph = null;
+    user = null;
+    password = null;
+    flavor = Flavors.AGENS;
+
+    // Connection Pool
+    pool = null;
+
     constructor({host, port, database, graph, user, password, flavor} = {}) {
         if (!flavor) {
             throw new Error('Flavor is required.');
         }
 
-        this._host = host;
-        this._port = port;
-        this._database = database;
-        this._graph = graph;
-        this._user = user;
-        this._password = password;
+        this.host = host;
+        this.port = port;
+        this.database = database;
+        this.graph = graph;
+        this.user = user;
+        this.password = password;
         this.flavor = flavor;
     }
 
@@ -93,14 +104,14 @@ class AgensGraphRepository {
      * Get connectionInfo
      */
     async getConnection() {
-        if (!this._pool) {
-            this._pool = AgensGraphRepository.newConnectionPool(this.getPoolConnectionInfo());
+        if (!this.pool) {
+            this.pool = AgensGraphRepository.newConnectionPool(this.getPoolConnectionInfo());
         }
-        const client = await this._pool.connect();
+        const client = await this.pool.connect();
         if (this.flavor === 'AGE') {
             await setAGETypes(client, types);
         } else {
-            await client.query(`set graph_path = ${this._graph}`);
+            await client.query(`set graph_path = ${this.graph}`);
         }
         return client;
     }
@@ -110,7 +121,7 @@ class AgensGraphRepository {
      */
     async releaseConnection() {
         try {
-            await this._pool.end();
+            await this.pool.end();
             return true;
         } catch (err) {
             throw err;
@@ -121,15 +132,15 @@ class AgensGraphRepository {
      * Get connection pool information
      */
     getPoolConnectionInfo() {
-        if (!this._host || !this._port || !this._database) {
+        if (!this.host || !this.port || !this.database) {
             return null;
         }
         return {
-            host: this._host,
-            port: this._port,
-            database: this._database,
-            user: this._user,
-            password: this._password,
+            host: this.host,
+            port: this.port,
+            database: this.database,
+            user: this.user,
+            password: this.password,
             max: PgConfig.max,
             idleTimeoutMillis: PgConfig.idleTimeoutMillis,
             connectionTimeoutMillis: PgConfig.connectionTimeoutMillis,
@@ -140,19 +151,19 @@ class AgensGraphRepository {
      * Get connection info
      */
     getConnectionInfo() {
-        if (!this._host || !this._port || !this._database) {
+        if (!this.host || !this.port || !this.database) {
             throw new Error("Not connected");
         }
         return {
-            host: this._host,
-            port: this._port,
-            database: this._database,
-            user: this._user,
-            password: this._password,
-            graph: this._graph,
+            host: this.host,
+            port: this.port,
+            database: this.database,
+            user: this.user,
+            password: this.password,
+            graph: this.graph,
             flavor: this.flavor,
         };
     }
 }
 
-module.exports = AgensGraphRepository;
+export default AgensGraphRepository;

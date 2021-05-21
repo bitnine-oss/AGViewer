@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import Flavors from "../config/Flavors";
+import sessionService from '../services/sessionService';
 
-const express = require("express");
-const AgcloudController = require("../controllers/agcloudController");
-
-const router = express.Router();
-const agcloudController = new AgcloudController();
-
-const {wrap} = require('../common/Routes');
-
-// Execute Cypher Query
-router.post("/", wrap(agcloudController.connectDatabase));
-
-module.exports = router;
+export default class AgCloudController {
+    async connectDatabase(req, res, next) {
+        let databaseService = sessionService.get(req.sessionID);
+        if (databaseService.isConnected() || !req.body) {
+            res.redirect('/');
+        } else {
+            const params = {
+                flavor: Flavors.AGENS,
+                ...req.body
+            }
+            await databaseService.connectDatabase(params);
+            res.redirect('/');
+        }
+    }
+}

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-const CypherService = require("../services/cypherService");
-const sessionService = require("../services/sessionService");
+import CypherService from "../services/cypherService";
+import sessionService from "../services/sessionService";
 
-class CypherController {
+export default class CypherController {
     async executeCypher(req, res) {
         let connectorService = sessionService.get(req.sessionID);
         if (connectorService.isConnected()) {
@@ -31,5 +31,3 @@ class CypherController {
         }
     }
 }
-
-module.exports = CypherController;
