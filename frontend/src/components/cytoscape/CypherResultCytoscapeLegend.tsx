@@ -17,7 +17,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'react-bootstrap';
-import uuid from 'react-uuid';
+import { v4 as UUIDv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,8 +33,7 @@ class CypherResultCytoscapeLegend extends Component {
     };
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let newNodeBadges = prevState.nodeBadges;
@@ -73,25 +72,29 @@ class CypherResultCytoscapeLegend extends Component {
         }
       }
 
-      newNodeBadges.set(label,
+      newNodeBadges.set(
+        label,
         <Badge
           className="nodeLabel px-3 py-2 mx-1 my-2"
           pill
-          key={uuid()}
-          onClick={() => nextProps.onLabelClick({
-            type: 'labels',
-            data: {
-              type: 'node',
-              backgroundColor: legend.color,
-              fontColor: legend.fontColor,
-              size: legend.size,
-              label,
-            },
-          })}
+          key={UUIDv4()}
+          onClick={() =>
+            nextProps.onLabelClick({
+              type: 'labels',
+              data: {
+                type: 'node',
+                backgroundColor: legend.color,
+                fontColor: legend.fontColor,
+                size: legend.size,
+                label,
+              },
+            })
+          }
           style={{ backgroundColor: legend.color, color: legend.fontColor }}
         >
           {label}
-        </Badge>);
+        </Badge>
+      );
     }
 
     for (let i = 0; i < Object.entries(nextProps.legendData.edgeLegend).length; i += 1) {
@@ -122,24 +125,28 @@ class CypherResultCytoscapeLegend extends Component {
           });
         }
       }
-      newEdgeBadges.set(label,
+      newEdgeBadges.set(
+        label,
         <Badge
           className="edgeLabel px-3 py-2 mx-1 my-2"
-          key={uuid()}
-          onClick={() => nextProps.onLabelClick({
-            type: 'labels',
-            data: {
-              type: 'edge',
-              backgroundColor: legend.color,
-              fontColor: legend.fontColor,
-              size: legend.size,
-              label,
-            },
-          })}
+          key={UUIDv4()}
+          onClick={() =>
+            nextProps.onLabelClick({
+              type: 'labels',
+              data: {
+                type: 'edge',
+                backgroundColor: legend.color,
+                fontColor: legend.fontColor,
+                size: legend.size,
+                label,
+              },
+            })
+          }
           style={{ backgroundColor: legend.color, color: legend.fontColor }}
         >
           {label}
-        </Badge>);
+        </Badge>
+      );
     }
 
     return {
@@ -153,16 +160,13 @@ class CypherResultCytoscapeLegend extends Component {
     return true;
   }
 
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
   render() {
     const nodeLedgend = [];
     const edgeLedgend = [];
 
-    const {
-      nodeBadges, edgeBadges, nodeLegendExpanded, edgeLegendExpanded,
-    } = this.state;
+    const { nodeBadges, edgeBadges, nodeLegendExpanded, edgeLegendExpanded } = this.state;
 
     nodeBadges.forEach((value) => nodeLedgend.push(value));
     edgeBadges.forEach((value) => edgeLedgend.push(value));
@@ -179,9 +183,7 @@ class CypherResultCytoscapeLegend extends Component {
             className="frame-head-button btn btn-link px-3"
             onClick={() => this.setState({ nodeLegendExpanded: !nodeLegendExpanded })}
           >
-            <FontAwesomeIcon
-              icon={nodeLegendExpanded ? faAngleUp : faAngleDown}
-            />
+            <FontAwesomeIcon icon={nodeLegendExpanded ? faAngleUp : faAngleDown} />
           </button>
         </div>
         <div className="d-flex edgeLegend">
@@ -194,12 +196,9 @@ class CypherResultCytoscapeLegend extends Component {
             className="frame-head-button btn btn-link px-3"
             onClick={() => this.setState({ edgeLegendExpanded: !edgeLegendExpanded })}
           >
-            <FontAwesomeIcon
-              icon={edgeLegendExpanded ? faAngleUp : faAngleDown}
-            />
+            <FontAwesomeIcon icon={edgeLegendExpanded ? faAngleUp : faAngleDown} />
           </button>
         </div>
-
       </div>
     );
   }

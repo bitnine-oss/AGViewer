@@ -18,7 +18,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Modal } from 'antd';
-import uuid from 'react-uuid';
+import { v4 as UUIDv4 } from 'uuid';
 import { connect, useDispatch } from 'react-redux';
 import { VerticalLine, SubLabelLeft, SubLabelRight } from './SidebarComponents';
 
@@ -87,22 +87,16 @@ const genPropQuery = (eleType, propertyName) => {
 const NodeList = ({ nodes, setCommand }) => {
   let list;
   if (nodes) {
-    list = nodes.map((item) => (
-      <NodeItems
-        key={uuid()}
-        label={item.label}
-        cnt={item.cnt}
-        setCommand={setCommand}
-      />
-    ));
+    list = nodes.map((item) => <NodeItems key={UUIDv4()} label={item.label} cnt={item.cnt} setCommand={setCommand} />);
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '80px',
+          overflowY: 'auto',
+          marginTop: '12px',
+        }}
       >
         {list}
       </div>
@@ -112,31 +106,25 @@ const NodeList = ({ nodes, setCommand }) => {
   return null;
 };
 NodeList.propTypes = {
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
-const NodeItems = connect((state) => ({
-  database: state.database,
-}), {})(
-  ({
-    label, cnt, setCommand, database,
-  }) => (
-    <button
-      type="button"
-      className="node-item"
-      onClick={() => setCommand(genLabelQuery('node', label, database))}
-    >
-      {label}
-      (
-      {cnt}
-      )
-    </button>
-  ),
-);
+const NodeItems = connect(
+  (state) => ({
+    database: state.database,
+  }),
+  {}
+)(({ label, cnt, setCommand, database }) => (
+  <button type="button" className="node-item" onClick={() => setCommand(genLabelQuery('node', label, database))}>
+    {label}({cnt})
+  </button>
+));
 NodeItems.propTypes = {
   database: PropTypes.shape({
     flavor: PropTypes.string,
@@ -149,22 +137,16 @@ NodeItems.propTypes = {
 const EdgeList = ({ edges, setCommand }) => {
   let list;
   if (edges) {
-    list = edges.map((item) => (
-      <EdgeItems
-        key={uuid()}
-        label={item.label}
-        cnt={item.cnt}
-        setCommand={setCommand}
-      />
-    ));
+    list = edges.map((item) => <EdgeItems key={UUIDv4()} label={item.label} cnt={item.cnt} setCommand={setCommand} />);
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '80px',
+          overflowY: 'auto',
+          marginTop: '12px',
+        }}
       >
         {list}
       </div>
@@ -174,27 +156,23 @@ const EdgeList = ({ edges, setCommand }) => {
   return null;
 };
 EdgeList.propTypes = {
-  edges: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
-const EdgeItems = connect((state) => ({
-  database: state.database,
-}), {})(({
-  label, cnt, setCommand, database,
-}) => (
-  <button
-    type="button"
-    className="edge-item"
-    onClick={() => setCommand(genLabelQuery('edge', label, database))}
-  >
-    {label}
-    (
-    {cnt}
-    )
+const EdgeItems = connect(
+  (state) => ({
+    database: state.database,
+  }),
+  {}
+)(({ label, cnt, setCommand, database }) => (
+  <button type="button" className="edge-item" onClick={() => setCommand(genLabelQuery('edge', label, database))}>
+    {label}({cnt})
   </button>
 ));
 EdgeItems.propTypes = {
@@ -210,21 +188,17 @@ const PropertyList = ({ propertyKeys, setCommand }) => {
   let list;
   if (propertyKeys) {
     list = propertyKeys.map((item) => (
-      <PropertyItems
-        key={uuid()}
-        propertyName={item.key}
-        keyType={item.key_type}
-        setCommand={setCommand}
-      />
+      <PropertyItems key={UUIDv4()} propertyName={item.key} keyType={item.key_type} setCommand={setCommand} />
     ));
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '80px',
+          overflowY: 'auto',
+          marginTop: '12px',
+        }}
       >
         {list}
       </div>
@@ -234,10 +208,12 @@ const PropertyList = ({ propertyKeys, setCommand }) => {
   return null;
 };
 PropertyList.propTypes = {
-  propertyKeys: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    key_type: PropTypes.string,
-  })).isRequired,
+  propertyKeys: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      key_type: PropTypes.string,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
@@ -304,21 +280,12 @@ DBMSText.propTypes = {
   graph: PropTypes.string.isRequired,
 };
 
-const SidebarHome = ({
-  edges,
-  nodes,
-  propertyKeys,
-  setCommand,
-  command,
-  trimFrame,
-  addFrame,
-  getMetaData,
-}) => {
+const SidebarHome = ({ edges, nodes, propertyKeys, setCommand, command, trimFrame, addFrame, getMetaData }) => {
   const dispatch = useDispatch();
   const { confirm } = Modal;
 
   const requestDisconnect = () => {
-    const refKey = uuid();
+    const refKey = UUIDv4();
     dispatch(() => trimFrame('ServerDisconnect'));
     dispatch(() => addFrame(command, 'ServerDisconnect', refKey));
   };
@@ -349,35 +316,34 @@ const SidebarHome = ({
         </div>
         <VerticalLine />
         <div className="form-group sidebar-item-disconnect">
-          <button
-            className="frame-head-button btn btn-link"
-            type="button"
-            onClick={() => refreshSidebarHome()}
-          >
+          <button className="frame-head-button btn btn-link" type="button" onClick={() => refreshSidebarHome()}>
             <i className="icon-refresh" />
           </button>
           <br />
           <b>Refresh</b>
-          <div style={{
-            border: '1px solid #C4C4C4',
-            opacity: '1',
-            width: '80%',
-            height: '0',
-            margin: '3px auto',
-          }}
+          <div
+            style={{
+              border: '1px solid #C4C4C4',
+              opacity: '1',
+              width: '80%',
+              height: '0',
+              margin: '3px auto',
+            }}
           />
           <button
             className="frame-head-button btn btn-link"
             type="button"
-            onClick={() => confirm({
-              title: 'Are you sure you want to close this window?',
-              onOk() {
-                requestDisconnect();
-              },
-              onCancel() {
-                return false;
-              },
-            })}
+            onClick={() =>
+              confirm({
+                title: 'Are you sure you want to close this window?',
+                onOk() {
+                  requestDisconnect();
+                },
+                onCancel() {
+                  return false;
+                },
+              })
+            }
           >
             <i className="icon-close-session" />
           </button>
@@ -390,18 +356,24 @@ const SidebarHome = ({
 };
 
 SidebarHome.propTypes = {
-  edges: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
-  propertyKeys: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    key_type: PropTypes.string,
-  })).isRequired,
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
+  propertyKeys: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      key_type: PropTypes.string,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
   command: PropTypes.string.isRequired,
   trimFrame: PropTypes.func.isRequired,

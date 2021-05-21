@@ -15,27 +15,20 @@
  */
 
 import React, { createRef, useEffect, useState } from 'react';
-import uuid from 'react-uuid';
+import { v4 as UUIDv4 } from 'uuid';
 import { saveAs } from 'file-saver';
 import { Parser } from 'json2csv';
 import PropTypes from 'prop-types';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faTable } from '@fortawesome/free-solid-svg-icons';
-import CypherResultCytoscapeContainer
-  from '../../cypherresult/containers/CypherResultCytoscapeContainer';
+import CypherResultCytoscapeContainer from '../../cypherresult/containers/CypherResultCytoscapeContainer';
 import CypherResultTableContainer from '../../cypherresult/containers/CypherResultTableContainer';
 import GraphFilterModal from '../../cypherresult/components/GraphFilterModal';
 import Frame from '../Frame';
 
-const CypherResultFrame = ({
-  refKey,
-  isPinned,
-  reqString,
-  removeFrame,
-  pinFrame,
-}) => {
+const CypherResultFrame = ({ refKey, isPinned, reqString, removeFrame, pinFrame }) => {
   const chartAreaRef = createRef();
-  const [cytoscapeContainerKey, setCytoscapeContainerKey] = useState(uuid());
+  const [cytoscapeContainerKey, setCytoscapeContainerKey] = useState(UUIDv4());
 
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
@@ -43,16 +36,16 @@ const CypherResultFrame = ({
   const [globalFilter, setGlobalFilter] = useState(null);
   useEffect(() => {
     if (chartAreaRef.current && filterModalVisible) {
-      const labels = chartAreaRef.current.getLabels()
-        .map(
-          (label) => {
-            const propertiesIter = Array.from(chartAreaRef.current.getCaptionsFromCytoscapeObject('node', label));
-            return propertiesIter.map((value) => ({
-              label,
-              property: value,
-            }));
-          },
-        ).flat();
+      const labels = chartAreaRef.current
+        .getLabels()
+        .map((label) => {
+          const propertiesIter = Array.from(chartAreaRef.current.getCaptionsFromCytoscapeObject('node', label));
+          return propertiesIter.map((value) => ({
+            label,
+            property: value,
+          }));
+        })
+        .flat();
       setFilterProperties(labels);
     }
   }, [filterModalVisible]);
@@ -66,7 +59,7 @@ const CypherResultFrame = ({
   }, [globalFilter]);
 
   const refreshFrame = () => {
-    setCytoscapeContainerKey(uuid());
+    setCytoscapeContainerKey(UUIDv4());
   };
 
   const downloadPng = () => {
@@ -80,7 +73,6 @@ const CypherResultFrame = ({
       output: 'base64uri',
       bg: 'transparent',
       full: true,
-
     };
     saveAs(chartAreaRef.current.getCy().png(pngOption), `${reqString.replace(/ /g, '_')}.png`);
   };
@@ -91,13 +83,23 @@ const CypherResultFrame = ({
       alert('No data to download!');
       return;
     }
-    saveAs(new Blob([JSON.stringify(eleJson.map((ele) => ({
-      label: ele.data.label,
-      gid: ele.data.id,
-      source: ele.data.source,
-      target: ele.data.target,
-      properties: ele.data.properties,
-    })))], { type: 'application/json;charset=utf-8' }), `${reqString.replace(/ /g, '_')}.json`);
+    saveAs(
+      new Blob(
+        [
+          JSON.stringify(
+            eleJson.map((ele) => ({
+              label: ele.data.label,
+              gid: ele.data.id,
+              source: ele.data.source,
+              target: ele.data.target,
+              properties: ele.data.properties,
+            }))
+          ),
+        ],
+        { type: 'application/json;charset=utf-8' }
+      ),
+      `${reqString.replace(/ /g, '_')}.json`
+    );
   };
 
   const downloadCsv = () => {
@@ -117,7 +119,10 @@ const CypherResultFrame = ({
 
     try {
       const json2csvParser = new Parser();
-      saveAs(new Blob([`\uFEFF${json2csvParser.parse(dataJson)}`], { type: 'text/csv;charset=utf-8' }), `${reqString.replace(/ /g, '_')}.csv`);
+      saveAs(
+        new Blob([`\uFEFF${json2csvParser.parse(dataJson)}`], { type: 'text/csv;charset=utf-8' }),
+        `${reqString.replace(/ /g, '_')}.csv`
+      );
     } catch (err) {
       alert('Unknown Error.');
     }
@@ -139,22 +144,16 @@ const CypherResultFrame = ({
             downloadPng();
           }
         }}
-        content={(
+        content={
           <div className="d-flex h-100">
             <div style={{ height: '100%', width: '100%' }} id={`${refKey}-graph`} className="selected-frame-tab">
-              <CypherResultCytoscapeContainer
-                key={cytoscapeContainerKey}
-                ref={chartAreaRef}
-                refKey={refKey}
-              />
+              <CypherResultCytoscapeContainer key={cytoscapeContainerKey} ref={chartAreaRef} refKey={refKey} />
             </div>
             <div style={{ height: '100%', width: '100%' }} id={`${refKey}-table`} className="deselected-frame-tab">
-              <CypherResultTableContainer
-                refKey={refKey}
-              />
+              <CypherResultTableContainer refKey={refKey} />
             </div>
           </div>
-        )}
+        }
         reqString={reqString}
         isPinned={isPinned}
         pinFrame={pinFrame}
@@ -171,7 +170,6 @@ const CypherResultFrame = ({
         globalFilter={globalFilter}
       />
     </>
-
   );
 };
 

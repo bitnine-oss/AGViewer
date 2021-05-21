@@ -16,7 +16,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import uuid from 'uuid';
+import { v4 as UUIDv4 } from 'uuid';
 import AlertContainers from '../../alert/containers/AlertContainers';
 import CodeMirror from '../../editor/containers/CodeMirrorWapperContainer';
 import SideBarToggle from '../../editor/containers/SideBarMenuToggleContainer';
@@ -61,7 +61,7 @@ const Editor: React.FunctionComponent<EditorProps> = ({
   };
 
   const onClick = () => {
-    const refKey = uuid.v4();
+    const refKey = UUIDv4();
     if (command.toUpperCase().startsWith(':PLAY')) {
       dispatch(() => addFrame(command, 'Contents', refKey));
     } else if (command.toUpperCase() === ':SERVER STATUS') {

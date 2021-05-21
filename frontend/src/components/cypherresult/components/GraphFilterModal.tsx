@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button, Input, message, Modal, Select,
-} from 'antd';
+import { Button, Input, message, Modal, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import uuid from 'react-uuid';
+import { v4 as UUIDv4 } from 'uuid';
 
 const generateNewFilterObject = () => ({
-  key: uuid(),
+  key: UUIDv4(),
   keyword: null,
   property: null,
 });
 
-const GraphFilterModal = ({
-  visible,
-  setVisible,
-  onSubmit,
-  properties,
-  globalFilter,
-}) => {
+const GraphFilterModal = ({ visible, setVisible, onSubmit, properties, globalFilter }) => {
   const [propertyElements, setPropertyElements] = useState([]);
-  const [filterList, setFilterList] = useState([
-    generateNewFilterObject(),
-  ]);
+  const [filterList, setFilterList] = useState([generateNewFilterObject()]);
   const [filterElements, setFilterElements] = useState(null);
 
   useEffect(() => {
@@ -76,17 +66,14 @@ const GraphFilterModal = ({
         properties.map((propertyItem) => {
           const strPropertyItem = JSON.stringify(propertyItem);
           return (
-            <Select.Option
-              key={strPropertyItem}
-              value={strPropertyItem}
-            >
+            <Select.Option key={strPropertyItem} value={strPropertyItem}>
               &#91;
               {propertyItem.label}
               &#93;&nbsp;
               {propertyItem.property}
             </Select.Option>
           );
-        }),
+        })
       );
     }
   }, [properties]);
@@ -109,13 +96,15 @@ const GraphFilterModal = ({
             }}
             style={{ minWidth: 120 }}
           >
-            <Select.Option value={null} disabled>Select</Select.Option>
+            <Select.Option value={null} disabled>
+              Select
+            </Select.Option>
             {propertyElements}
           </Select>
           <div style={{ width: '1px' }} />
           <Input
             style={{ flex: 1 }}
-            defaultValue={(globalFilter === null) ? '' : filterList[index].keyword}
+            defaultValue={globalFilter === null ? '' : filterList[index].keyword}
             onChange={(event) => {
               filterList[index].keyword = event.target.value;
               setFilterList(filterList);
@@ -129,16 +118,13 @@ const GraphFilterModal = ({
               <FontAwesomeIcon icon={faMinus} />
             </Button>
           ) : null}
-
         </div>
-      )),
+      ))
     );
   }, [propertyElements, filterList]);
   return (
     <Modal title="Filter on Graph" visible={visible} onOk={onOk} onCancel={() => setVisible(false)}>
-      {
-        filterElements
-      }
+      {filterElements}
     </Modal>
   );
 };
@@ -147,10 +133,12 @@ GraphFilterModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  properties: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    property: PropTypes.string,
-  })).isRequired,
+  properties: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      property: PropTypes.string,
+    })
+  ).isRequired,
   globalFilter: PropTypes.bool.isRequired,
 };
 

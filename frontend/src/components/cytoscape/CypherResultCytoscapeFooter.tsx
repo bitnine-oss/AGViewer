@@ -17,7 +17,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'react-bootstrap';
-import uuid from 'react-uuid';
+import { v4 as UUIDv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -48,16 +48,9 @@ const CypherResultCytoscapeFooter = ({
     for (let i = 0; i < Object.entries(d).length; i += 1) {
       const [alias, val] = Object.entries(d)[i];
       extractedData.push(
-        <span key={uuid()} className="label">
-          <strong className="pl-3">
-            {alias}
-            {' '}
-            :
-            {' '}
-          </strong>
-          {' '}
-          {typeof val === 'object' ? JSON.stringify(val) : val}
-        </span>,
+        <span key={UUIDv4()} className="label">
+          <strong className="pl-3">{alias} : </strong> {typeof val === 'object' ? JSON.stringify(val) : val}
+        </span>
       );
     }
     return extractedData;
@@ -81,9 +74,7 @@ const CypherResultCytoscapeFooter = ({
               {footerData.data.label}
             </Badge>
             <span className="label">
-              <strong className="pl-3">&lt;gid&gt; : </strong>
-              {' '}
-              {footerData.data.id}
+              <strong className="pl-3">&lt;gid&gt; : </strong> {footerData.data.id}
             </span>
             {extractData(footerData.data.properties)}
           </div>
@@ -92,9 +83,7 @@ const CypherResultCytoscapeFooter = ({
             className="frame-head-button btn btn-link px-3"
             onClick={() => setFooterExpanded(!footerExpanded)}
           >
-            <FontAwesomeIcon
-              icon={footerExpanded ? faAngleUp : faAngleDown}
-            />
+            <FontAwesomeIcon icon={footerExpanded ? faAngleUp : faAngleDown} />
           </button>
         </div>
       );
@@ -105,11 +94,8 @@ const CypherResultCytoscapeFooter = ({
           <div className="mr-auto label pl-3">
             Displaying&nbsp;
             <strong>{footerData.data.nodeCount}</strong>
-            &nbsp;
-            nodes,&nbsp;
-            <strong>{footerData.data.edgeCount}</strong>
-            {' '}
-            edges
+            &nbsp; nodes,&nbsp;
+            <strong>{footerData.data.edgeCount}</strong> edges
           </div>
           Layout :&nbsp;
           <select
@@ -138,12 +124,14 @@ const CypherResultCytoscapeFooter = ({
       const isEdge = footerData.data.type === 'edge';
 
       const nodeSizeButton = (nodeSize, i) => {
-        const size = (i * 3) + 12;
+        const size = i * 3 + 12;
         return (
           <button
-            onClick={() => [updateNodeLabelSize(footerData.data.label, nodeSize),
-              sizeChange(footerData.data.type, footerData.data.label, nodeSize)]}
-            key={uuid()}
+            onClick={() => [
+              updateNodeLabelSize(footerData.data.label, nodeSize),
+              sizeChange(footerData.data.type, footerData.data.label, nodeSize),
+            ]}
+            key={UUIDv4()}
             type="button"
             className={`btn sizeSelector node ${footerData.data.size >= nodeSize ? ' selectedSize ' : ''}`}
             style={{ width: `${size}px`, height: `${size}px` }}
@@ -154,12 +142,14 @@ const CypherResultCytoscapeFooter = ({
       };
 
       const edgeSizeButton = (edgeSize, i) => {
-        const size = (i * 3) + 12;
+        const size = i * 3 + 12;
         return (
           <button
-            onClick={() => [updateEdgeLabelSize(footerData.data.label, edgeSize),
-              sizeChange(footerData.data.type, footerData.data.label, edgeSize)]}
-            key={uuid()}
+            onClick={() => [
+              updateEdgeLabelSize(footerData.data.label, edgeSize),
+              sizeChange(footerData.data.type, footerData.data.label, edgeSize),
+            ]}
+            key={UUIDv4()}
             type="button"
             className={`btn sizeSelector edge ${footerData.data.size >= edgeSize ? ' selectedSize ' : ''}`}
             style={{ width: `${size + 18}px`, height: `${size}px` }}
@@ -184,10 +174,13 @@ const CypherResultCytoscapeFooter = ({
             <button
               onClick={() => [
                 updateLabelColor(footerData.data.type, footerData.data.label, color),
-                colorChange(footerData.data.type, footerData.data.label, color)]}
-              key={uuid()}
+                colorChange(footerData.data.type, footerData.data.label, color),
+              ]}
+              key={UUIDv4()}
               type="button"
-              className={`btn colorSelector ${footerData.data.backgroundColor === color.color ? ' selectedColor ' : ''}`}
+              className={`btn colorSelector ${
+                footerData.data.backgroundColor === color.color ? ' selectedColor ' : ''
+              }`}
               style={{ backgroundColor: color.color }}
             >
               &nbsp;
@@ -199,10 +192,13 @@ const CypherResultCytoscapeFooter = ({
             <button
               onClick={() => [
                 updateLabelColor(footerData.data.type, footerData.data.label, color),
-                colorChange(footerData.data.type, footerData.data.label, color)]}
-              key={uuid()}
+                colorChange(footerData.data.type, footerData.data.label, color),
+              ]}
+              key={UUIDv4()}
               type="button"
-              className={`btn colorSelector ${footerData.data.backgroundColor === color.color ? ' selectedColor ' : ''}`}
+              className={`btn colorSelector ${
+                footerData.data.backgroundColor === color.color ? ' selectedColor ' : ''
+              }`}
               style={{ backgroundColor: color.color }}
             >
               &nbsp;
@@ -239,10 +235,13 @@ const CypherResultCytoscapeFooter = ({
                 <button
                   onClick={() => [
                     updateLabelCaption(footerData.data.type, footerData.data.label, caption),
-                    captionChange(footerData.data.type, footerData.data.label, caption)]}
-                  key={uuid()}
+                    captionChange(footerData.data.type, footerData.data.label, caption),
+                  ]}
+                  key={UUIDv4()}
                   type="button"
-                  className={`btn captionSelector ${selectedCaption === caption ? ' btn-secondary ' : ' btn-outline-dark '}`}
+                  className={`btn captionSelector ${
+                    selectedCaption === caption ? ' btn-secondary ' : ' btn-outline-dark '
+                  }`}
                 >
                   <strong>
                     &lt;
@@ -251,7 +250,6 @@ const CypherResultCytoscapeFooter = ({
                   </strong>
                 </button>
               ))}
-
             </span>
           </div>
           <button
@@ -259,9 +257,7 @@ const CypherResultCytoscapeFooter = ({
             className="frame-head-button btn btn-link px-3"
             onClick={() => setFooterExpanded(!footerExpanded)}
           >
-            <FontAwesomeIcon
-              icon={footerExpanded ? faAngleUp : faAngleDown}
-            />
+            <FontAwesomeIcon icon={footerExpanded ? faAngleUp : faAngleDown} />
           </button>
         </div>
       );
@@ -293,11 +289,7 @@ const CypherResultCytoscapeFooter = ({
     );
   };
 
-  return (
-    <div className="chart-footer-area text-muted">
-      {displayFooterData()}
-    </div>
-  );
+  return <div className="chart-footer-area text-muted">{displayFooterData()}</div>;
 };
 
 CypherResultCytoscapeFooter.defaultProps = {
@@ -307,34 +299,42 @@ CypherResultCytoscapeFooter.defaultProps = {
 CypherResultCytoscapeFooter.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   footerData: PropTypes.any.isRequired,
-  edgeLabelColors: PropTypes.arrayOf(PropTypes.shape({
-    color: PropTypes.string,
-    borderColor: PropTypes.string,
-    fontColor: PropTypes.string,
-    // eslint-disable-next-line react/forbid-prop-types
-    edgeLabels: PropTypes.any,
-    index: PropTypes.number,
-  })).isRequired,
-  nodeLabelColors: PropTypes.arrayOf(PropTypes.shape({
-    color: PropTypes.string,
-    borderColor: PropTypes.string,
-    fontColor: PropTypes.string,
-    // eslint-disable-next-line react/forbid-prop-types
-    nodeLabels: PropTypes.any,
-    index: PropTypes.number,
-  })).isRequired,
-  nodeLabelSizes: PropTypes.arrayOf(PropTypes.shape({
-    size: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    labels: PropTypes.any,
-    index: PropTypes.number,
-  })).isRequired,
-  edgeLabelSizes: PropTypes.arrayOf(PropTypes.shape({
-    size: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    labels: PropTypes.any,
-    index: PropTypes.number,
-  })).isRequired,
+  edgeLabelColors: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      borderColor: PropTypes.string,
+      fontColor: PropTypes.string,
+      // eslint-disable-next-line react/forbid-prop-types
+      edgeLabels: PropTypes.any,
+      index: PropTypes.number,
+    })
+  ).isRequired,
+  nodeLabelColors: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      borderColor: PropTypes.string,
+      fontColor: PropTypes.string,
+      // eslint-disable-next-line react/forbid-prop-types
+      nodeLabels: PropTypes.any,
+      index: PropTypes.number,
+    })
+  ).isRequired,
+  nodeLabelSizes: PropTypes.arrayOf(
+    PropTypes.shape({
+      size: PropTypes.number,
+      // eslint-disable-next-line react/forbid-prop-types
+      labels: PropTypes.any,
+      index: PropTypes.number,
+    })
+  ).isRequired,
+  edgeLabelSizes: PropTypes.arrayOf(
+    PropTypes.shape({
+      size: PropTypes.number,
+      // eslint-disable-next-line react/forbid-prop-types
+      labels: PropTypes.any,
+      index: PropTypes.number,
+    })
+  ).isRequired,
   colorChange: PropTypes.func.isRequired,
   sizeChange: PropTypes.func.isRequired,
   captionChange: PropTypes.func.isRequired,
