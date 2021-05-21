@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/keymap/sublime';
 import 'codemirror/theme/ambiance-mobile.css';
-import PropTypes from 'prop-types';
 
-const CodeMirrorWrapper = ({
-  value, onChange, commandHistory, onClick,
+interface CodeMirrorWrapperProps {
+  value: string;
+  onChange: (value: string) => void;
+  commandHistory: any[];
+  onClick: () => void;
+}
+
+const CodeMirrorWrapper: React.FunctionComponent<CodeMirrorWrapperProps> = ({
+  value,
+  onChange,
+  commandHistory,
+  onClick,
 }) => {
   const [commandHistoryIndex, setCommandHistoryIndex] = useState(commandHistory.length);
-  const codeMirrorRef = useRef();
 
   return (
     <CodeMirror
-      id="editor"
-      ref={codeMirrorRef}
       value={value}
       options={{
         keyMap: 'sublime',
@@ -38,17 +44,17 @@ const CodeMirrorWrapper = ({
         lineNumbers: true,
         lineNumberFormatter: () => '$',
         extraKeys: {
-          'Shift-Enter': (editor) => {
+          'Shift-Enter': (editor: { setValue: (arg0: string) => void }) => {
             onClick();
             editor.setValue('');
             setCommandHistoryIndex(-1);
           },
-          'Ctrl-Enter': (editor) => {
+          'Ctrl-Enter': (editor: { setValue: (arg0: string) => void }) => {
             onClick();
             editor.setValue('');
             setCommandHistoryIndex(-1);
           },
-          'Ctrl-Up': (editor) => {
+          'Ctrl-Up': (editor: { setValue: (arg0: string) => void }) => {
             if (commandHistory.length === 0) {
               return;
             }
@@ -67,7 +73,7 @@ const CodeMirrorWrapper = ({
             editor.setValue(commandHistory[commandHistoryIndex - 1]);
             setCommandHistoryIndex(commandHistoryIndex - 1);
           },
-          'Ctrl-Down': (editor) => {
+          'Ctrl-Down': (editor: { setValue: (arg0: string) => void }) => {
             if (commandHistory.length === 0) {
               return;
             }
@@ -76,7 +82,7 @@ const CodeMirrorWrapper = ({
               return;
             }
 
-            if (commandHistoryIndex === (commandHistory.length - 1)) {
+            if (commandHistoryIndex === commandHistory.length - 1) {
               editor.setValue('');
               setCommandHistoryIndex(-1);
               return;
@@ -93,19 +99,12 @@ const CodeMirrorWrapper = ({
         if (lineCount <= 1) {
           editor.setOption('lineNumberFormatter', () => '$');
         } else {
-          editor.setOption('lineNumberFormatter', (number) => number);
+          editor.setOption('lineNumberFormatter', (number: number) => number);
         }
         return true;
       }}
     />
   );
-};
-
-CodeMirrorWrapper.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  commandHistory: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default CodeMirrorWrapper;

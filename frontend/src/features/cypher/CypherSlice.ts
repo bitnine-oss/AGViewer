@@ -18,64 +18,67 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 // eslint-disable-next-line no-unused-vars
-const validateSamePathVariableReturn = (cypherQuery) => {
+const validateSamePathVariableReturn = (cypherQuery: string) => {
   const cypherPathValidator = new RegExp('^match\\s([a-zA-Z0-9].*)\\s*=\\s*\\(', 'i');
 
   if (cypherPathValidator.test(cypherQuery)) {
     const pathAlias = RegExp.$1;
     const returnPathAliasValidator = new RegExp(`^match\\s.*\\s*=.*return\\s${pathAlias}.*`, 'i');
     if (!returnPathAliasValidator.test(cypherQuery)) {
-      throw Object.assign(new Error(`Only Path variable should be returned.\n Modify the return clause to ' RETURN ${pathAlias} '`), { code: 500 });
+      throw Object.assign(
+        new Error(`Only Path variable should be returned.\n Modify the return clause to ' RETURN ${pathAlias} '`),
+        { code: 500 }
+      );
     }
   }
 };
 
 // eslint-disable-next-line no-unused-vars
-const validateVlePathVariableReturn = (cypherQuery) => {
+const validateVlePathVariableReturn = (cypherQuery: string) => {
   const cypherVleValidator = new RegExp('^match\\s.*[.*[0-9]*\\s*\\.\\.\\s*[0-9]*]', 'i');
 
   if (cypherVleValidator.test(cypherQuery)) {
     const cypherPathValidator = new RegExp('^match\\s(.*[a-zA-Z0-9])\\s*=', 'i');
 
     if (!cypherPathValidator.test(cypherQuery)) {
-      throw Object.assign(new Error("Path variable is required to be used with VLE query. Refer the below proper cypher query with VLE. \n 'MATCH pathvariable = (v)-[r*1..5]->(v2) return pathvariable;"), { code: 500 });
+      throw Object.assign(
+        new Error(
+          "Path variable is required to be used with VLE query. Refer the below proper cypher query with VLE. \n 'MATCH pathvariable = (v)-[r*1..5]->(v2) return pathvariable;"
+        ),
+        { code: 500 }
+      );
     }
   }
 };
 
-export const executeCypherQuery = createAsyncThunk(
-  'cypher/executeCypherQuery',
-  async (args) => {
-    try {
-      // validateSamePathVariableReturn(args[1]);
-      // validateVlePathVariableReturn(args[1]);
+export const executeCypherQuery = createAsyncThunk('cypher/executeCypherQuery', async (args) => {
+  try {
+    // validateSamePathVariableReturn(args[1]);
+    // validateVlePathVariableReturn(args[1]);
 
-      const response = await fetch('/api/v1/cypher',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ cmd: args[1] }),
-        });
-      if (response.ok) {
-        const res = await response.json();
-        return { key: args[0], query: args[1], ...res };
-      }
-      throw response;
-    } catch (error) {
-      if (error.json === undefined) {
-        throw error;
-      } else {
-        const errorJson = await error.json();
-        const messaage = errorJson.message.charAt(0).toUpperCase() + errorJson.message.slice(1);
-        throw messaage;
-      }
+    const response = await fetch('/api/v1/cypher', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cmd: args[1] }),
+    });
+    if (response.ok) {
+      const res = await response.json();
+      return { key: args[0], query: args[1], ...res };
     }
-  },
-
-);
+    throw response;
+  } catch (error) {
+    if (error.json === undefined) {
+      throw error;
+    } else {
+      const errorJson = await error.json();
+      const messaage = errorJson.message.charAt(0).toUpperCase() + errorJson.message.slice(1);
+      throw messaage;
+    }
+  }
+});
 
 const CypherSlice = createSlice({
   name: 'cypher',

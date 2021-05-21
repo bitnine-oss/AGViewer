@@ -16,39 +16,37 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const getMetaData = createAsyncThunk(
-  'database/getMetaData',
-  async () => {
-    try {
-      const response = await fetch('/api/v1/db/meta');
-      if (response.ok) { return await response.json(); }
-      throw response;
-    } catch (error) {
-      const errorDetail = {
-        name: 'Database Connection Failed',
-        statusText: error.statusText,
-      };
-      throw errorDetail;
+export const getMetaData = createAsyncThunk('database/getMetaData', async () => {
+  try {
+    const response = await fetch('/api/v1/db/meta');
+    if (response.ok) {
+      return await response.json();
     }
-  },
-);
+    throw response;
+  } catch (error) {
+    const errorDetail = {
+      name: 'Database Connection Failed',
+      statusText: error.statusText,
+    };
+    throw errorDetail;
+  }
+});
 
-export const getMetaChartData = createAsyncThunk(
-  'database/getMetaChartData',
-  async () => {
-    try {
-      const response = await fetch('/api/v1/db/metaChart');
-      if (response.ok) { return await response.json(); }
-      throw response;
-    } catch (error) {
-      const errorDetail = {
-        name: 'Database Connection Failed',
-        statusText: error.statusText,
-      };
-      throw errorDetail;
+export const getMetaChartData = createAsyncThunk('database/getMetaChartData', async () => {
+  try {
+    const response = await fetch('/api/v1/db/metaChart');
+    if (response.ok) {
+      return await response.json();
     }
-  },
-);
+    throw response;
+  } catch (error) {
+    const errorDetail = {
+      name: 'Database Connection Failed',
+      statusText: error.statusText,
+    };
+    throw errorDetail;
+  }
+});
 
 const MetadataSlice = createSlice({
   name: 'metadata',
@@ -77,7 +75,6 @@ const MetadataSlice = createSlice({
         user_name: '',
         role_name: '',
       },
-
     }),
   },
   extraReducers: {

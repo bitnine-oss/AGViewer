@@ -16,79 +16,175 @@
 
 export const nodeLabelColors = [
   {
-    color: '#604A0E', borderColor: '#423204', fontColor: '#FFF', nodeLabels: new Set([]), index: 0,
+    color: '#604A0E',
+    borderColor: '#423204',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 0,
   },
   {
-    color: '#C990C0', borderColor: '#B261A5', fontColor: '#FFF', nodeLabels: new Set([]), index: 1,
+    color: '#C990C0',
+    borderColor: '#B261A5',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 1,
   },
   {
-    color: '#F79767', borderColor: '#F36924', fontColor: '#FFF', nodeLabels: new Set([]), index: 2,
+    color: '#F79767',
+    borderColor: '#F36924',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 2,
   },
   {
-    color: '#57C7E3', borderColor: '#23B3D7', fontColor: '#2A2C34', nodeLabels: new Set([]), index: 3,
+    color: '#57C7E3',
+    borderColor: '#23B3D7',
+    fontColor: '#2A2C34',
+    nodeLabels: new Set([]),
+    index: 3,
   },
   {
-    color: '#F16667', borderColor: '#EB2728', fontColor: '#FFF', nodeLabels: new Set([]), index: 4,
+    color: '#F16667',
+    borderColor: '#EB2728',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 4,
   },
   {
-    color: '#D9C8AE', borderColor: '#C0A378', fontColor: '#2A2C34', nodeLabels: new Set([]), index: 5,
+    color: '#D9C8AE',
+    borderColor: '#C0A378',
+    fontColor: '#2A2C34',
+    nodeLabels: new Set([]),
+    index: 5,
   },
   {
-    color: '#8DCC93', borderColor: '#5DB665', fontColor: '#2A2C34', nodeLabels: new Set([]), index: 6,
+    color: '#8DCC93',
+    borderColor: '#5DB665',
+    fontColor: '#2A2C34',
+    nodeLabels: new Set([]),
+    index: 6,
   },
   {
-    color: '#ECB5C9', borderColor: '#DA7298', fontColor: '#2A2C34', nodeLabels: new Set([]), index: 7,
+    color: '#ECB5C9',
+    borderColor: '#DA7298',
+    fontColor: '#2A2C34',
+    nodeLabels: new Set([]),
+    index: 7,
   },
   {
-    color: '#498EDA', borderColor: '#2870C2', fontColor: '#FFF', nodeLabels: new Set([]), index: 8,
+    color: '#498EDA',
+    borderColor: '#2870C2',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 8,
   },
   {
-    color: '#FFC454', borderColor: '#D7A013', fontColor: '#2A2C34', nodeLabels: new Set([]), index: 9,
+    color: '#FFC454',
+    borderColor: '#D7A013',
+    fontColor: '#2A2C34',
+    nodeLabels: new Set([]),
+    index: 9,
   },
   {
-    color: '#DA7194', borderColor: '#CC3C6C', fontColor: '#FFF', nodeLabels: new Set([]), index: 10,
+    color: '#DA7194',
+    borderColor: '#CC3C6C',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 10,
   },
   {
-    color: '#569480', borderColor: '#447666', fontColor: '#FFF', nodeLabels: new Set([]), index: 11,
+    color: '#569480',
+    borderColor: '#447666',
+    fontColor: '#FFF',
+    nodeLabels: new Set([]),
+    index: 11,
   },
 ];
 
 export const edgeLabelColors = [
   {
-    color: '#CCA63D', borderColor: '#997000', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 0,
+    color: '#CCA63D',
+    borderColor: '#997000',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 0,
   },
   {
-    color: '#C990C0', borderColor: '#B261A5', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 1,
+    color: '#C990C0',
+    borderColor: '#B261A5',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 1,
   },
   {
-    color: '#F79767', borderColor: '#F36924', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 2,
+    color: '#F79767',
+    borderColor: '#F36924',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 2,
   },
   {
-    color: '#57C7E3', borderColor: '#23B3D7', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 3,
+    color: '#57C7E3',
+    borderColor: '#23B3D7',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 3,
   },
   {
-    color: '#F16667', borderColor: '#EB2728', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 4,
+    color: '#F16667',
+    borderColor: '#EB2728',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 4,
   },
   {
-    color: '#D9C8AE', borderColor: '#C0A378', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 5,
+    color: '#D9C8AE',
+    borderColor: '#C0A378',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 5,
   },
   {
-    color: '#8DCC93', borderColor: '#5DB665', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 6,
+    color: '#8DCC93',
+    borderColor: '#5DB665',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 6,
   },
   {
-    color: '#ECB5C9', borderColor: '#DA7298', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 7,
+    color: '#ECB5C9',
+    borderColor: '#DA7298',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 7,
   },
   {
-    color: '#498EDA', borderColor: '#2870C2', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 8,
+    color: '#498EDA',
+    borderColor: '#2870C2',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 8,
   },
   {
-    color: '#FFC454', borderColor: '#D7A013', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 9,
+    color: '#FFC454',
+    borderColor: '#D7A013',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 9,
   },
   {
-    color: '#DA7194', borderColor: '#CC3C6C', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 10,
+    color: '#DA7194',
+    borderColor: '#CC3C6C',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 10,
   },
   {
-    color: '#569480', borderColor: '#447666', fontColor: '#2A2C34', edgeLabels: new Set([]), index: 11,
+    color: '#569480',
+    borderColor: '#447666',
+    fontColor: '#2A2C34',
+    edgeLabels: new Set([]),
+    index: 11,
   },
 ];
 
@@ -145,7 +241,7 @@ const getNodeColor = (labelName) => {
   });
 
   if (Object.keys(selectedColor).length === 0) {
-    const randomIndex = Math.floor(Math.random() * (nodeLabelColors.length));
+    const randomIndex = Math.floor(Math.random() * nodeLabelColors.length);
     nodeLabelColors[randomIndex].nodeLabels.add(labelName);
     selectedColor = {
       color: nodeLabelColors[randomIndex].color,
@@ -169,7 +265,7 @@ const getEdgeColor = (labelName) => {
   });
 
   if (Object.keys(selectedColor).length === 0) {
-    const randomIndex = Math.floor(Math.random() * (edgeLabelColors.length));
+    const randomIndex = Math.floor(Math.random() * edgeLabelColors.length);
     edgeLabelColors[randomIndex].edgeLabels.add(labelName);
     selectedColor = {
       color: edgeLabelColors[randomIndex].color,
@@ -218,9 +314,11 @@ const sortByKey = (data) => {
   if (data === undefined) {
     return sorted;
   }
-  Object.keys(data).sort().forEach((key) => {
-    sorted[key] = data[key];
-  });
+  Object.keys(data)
+    .sort()
+    .forEach((key) => {
+      sorted[key] = data[key];
+    });
   return sorted;
 };
 
@@ -319,25 +417,23 @@ export const generateCytoscapeElement = (data, maxDataOfGraph, isNew) => {
       if (!Object.prototype.hasOwnProperty.call(val.properties, edgeLegend.caption)) {
         edgeLegend[labelName].caption = getCaption('edge', val);
       }
-      edges.push(
-        {
-          group: 'edges',
-          data: {
-            id: val.id,
-            source,
-            target,
-            label: val.label,
-            backgroundColor: edgeLegend[labelName].color,
-            borderColor: edgeLegend[labelName].borderColor,
-            fontColor: edgeLegend[labelName].fontColor,
-            size: edgeLegend[labelName].size,
-            properties: val.properties,
-            caption: edgeLegend[labelName].caption,
-          },
-          alias,
-          classes: isNew ? 'new node' : 'edge',
+      edges.push({
+        group: 'edges',
+        data: {
+          id: val.id,
+          source,
+          target,
+          label: val.label,
+          backgroundColor: edgeLegend[labelName].color,
+          borderColor: edgeLegend[labelName].borderColor,
+          fontColor: edgeLegend[labelName].fontColor,
+          size: edgeLegend[labelName].size,
+          properties: val.properties,
+          caption: edgeLegend[labelName].caption,
         },
-      );
+        alias,
+        classes: isNew ? 'new node' : 'edge',
+      });
     } else {
       if (!Object.prototype.hasOwnProperty.call(nodeLegend, labelName)) {
         nodeLegend[labelName] = {
@@ -358,23 +454,21 @@ export const generateCytoscapeElement = (data, maxDataOfGraph, isNew) => {
       if (!Object.prototype.hasOwnProperty.call(val.properties, nodeLegend.caption)) {
         nodeLegend[labelName].caption = getCaption('node', val);
       }
-      nodes.push(
-        {
-          group: 'nodes',
-          data: {
-            id: val.id,
-            label: val.label,
-            backgroundColor: nodeLegend[labelName].color,
-            borderColor: nodeLegend[labelName].borderColor,
-            fontColor: nodeLegend[labelName].fontColor,
-            size: nodeLegend[labelName].size,
-            properties: val.properties,
-            caption: nodeLegend[labelName].caption,
-          },
-          alias,
-          classes: isNew ? 'new node' : 'node',
+      nodes.push({
+        group: 'nodes',
+        data: {
+          id: val.id,
+          label: val.label,
+          backgroundColor: nodeLegend[labelName].color,
+          borderColor: nodeLegend[labelName].borderColor,
+          fontColor: nodeLegend[labelName].fontColor,
+          size: nodeLegend[labelName].size,
+          properties: val.properties,
+          caption: nodeLegend[labelName].caption,
         },
-      );
+        alias,
+        classes: isNew ? 'new node' : 'node',
+      });
     }
   }
 
@@ -413,41 +507,37 @@ export const generateCytoscapeElement = (data, maxDataOfGraph, isNew) => {
 const generateMetadataElements = (nodeLegend, edgeLegend, nodes, edges, val) => {
   const labelName = val.la_name;
   if (val.la_start && val.la_end) {
-    edges.push(
-      {
-        group: 'edges',
-        data: {
-          id: val.la_oid,
-          source: val.la_start,
-          target: val.la_end,
-          label: val.la_name,
-          backgroundColor: edgeLegend[labelName].color,
-          borderColor: edgeLegend[labelName].borderColor,
-          fontColor: edgeLegend[labelName].fontColor,
-          size: edgeLegend[labelName].size,
-          properties: { count: val.la_count, id: val.la_oid, name: val.la_name },
-          caption: edgeLegend[labelName].caption,
-        },
-        classes: 'edge',
+    edges.push({
+      group: 'edges',
+      data: {
+        id: val.la_oid,
+        source: val.la_start,
+        target: val.la_end,
+        label: val.la_name,
+        backgroundColor: edgeLegend[labelName].color,
+        borderColor: edgeLegend[labelName].borderColor,
+        fontColor: edgeLegend[labelName].fontColor,
+        size: edgeLegend[labelName].size,
+        properties: { count: val.la_count, id: val.la_oid, name: val.la_name },
+        caption: edgeLegend[labelName].caption,
       },
-    );
+      classes: 'edge',
+    });
   } else {
-    nodes.push(
-      {
-        group: 'nodes',
-        data: {
-          id: val.la_oid,
-          label: val.la_name,
-          backgroundColor: nodeLegend[labelName].color,
-          borderColor: nodeLegend[labelName].borderColor,
-          fontColor: nodeLegend[labelName].fontColor,
-          size: nodeLegend[labelName].size,
-          properties: { count: val.la_count, id: val.la_oid, name: val.la_name },
-          caption: nodeLegend[labelName].caption,
-        },
-        classes: 'node',
+    nodes.push({
+      group: 'nodes',
+      data: {
+        id: val.la_oid,
+        label: val.la_name,
+        backgroundColor: nodeLegend[labelName].color,
+        borderColor: nodeLegend[labelName].borderColor,
+        fontColor: nodeLegend[labelName].fontColor,
+        size: nodeLegend[labelName].size,
+        properties: { count: val.la_count, id: val.la_oid, name: val.la_name },
+        caption: nodeLegend[labelName].caption,
       },
-    );
+      classes: 'node',
+    });
   }
 };
 

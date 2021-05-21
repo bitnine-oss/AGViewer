@@ -19,8 +19,7 @@ import Alert from '../presentations/Alert';
 import { setCommand } from '../../../features/editor/EditorSlice';
 import { removeAlert } from '../../../features/alert/AlertSlice';
 
-const mapStateToProps = () => ({
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = { setCommand, removeAlert };
 

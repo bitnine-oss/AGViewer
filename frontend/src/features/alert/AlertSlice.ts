@@ -39,7 +39,7 @@ const AlertSlice = createSlice({
     removeAlert: {
       reducer: (state, action) => {
         const { alertKey } = action.payload;
-        return state.filter((alert) => (alert.alertProps.key !== alertKey));
+        return state.filter((alert) => alert.alertProps.key !== alertKey);
       },
       prepare: (alertKey) => ({ payload: { alertKey } }),
     },

@@ -15,8 +15,17 @@
  */
 
 import React from 'react';
-import DefaultTemplate from '../../components/template/DefaultTemplate';
+import ReactDOM from 'react-dom';
 
-const MainPage = () => <DefaultTemplate />;
+import { Provider } from 'react-redux';
+import store from './app/store';
 
-export default MainPage;
+import App from './App';
+import './index.css';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);

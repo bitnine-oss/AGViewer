@@ -21,7 +21,11 @@ import { faCog, faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 const MenuSlice = createSlice({
   name: 'navigator',
   initialState: {
-    menuList: [['home', faHome], ['setting', faCog], ['about', faInfoCircle]],
+    menuList: [
+      ['home', faHome],
+      ['setting', faCog],
+      ['about', faInfoCircle],
+    ],
     activeMenu: 'home',
     isActive: true,
   },

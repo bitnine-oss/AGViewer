@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
 import { Alert } from 'antd';
 
-const SingleAlert = ({
+interface SingleAlertProps {
+  alertKey: string;
+  alertName: string;
+  errorMessage: string;
+  setCommand: (command: string) => void;
+  removeAlert: (alertKey: string) => void;
+}
+
+const SingleAlert: React.FunctionComponent<SingleAlertProps> = ({
   alertKey,
   alertName,
   errorMessage,
@@ -30,51 +37,44 @@ const SingleAlert = ({
 }) => {
   const dispatch = useDispatch();
 
-  const setAlertConnect = (e, command) => {
+  const setAlertConnect = (e: React.MouseEvent<unknown>, command: string) => {
     e.preventDefault();
     dispatch(() => {
       setCommand(command);
     });
   };
 
-  const clearAlert = () => {
+  const clearAlert = useCallback(() => {
     dispatch(() => {
       removeAlert(alertKey);
     });
-  };
+  }, [alertKey, dispatch, removeAlert]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       clearAlert();
     }, 10000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [clearAlert]);
 
   if (alertName === 'NoticeServerDisconnected') {
     return (
       <Alert
-        variant="warning"
+        type="warning"
         afterClose={() => clearAlert()}
         showIcon
         closable
         message="Database Disconnected"
-        description={(
+        description={
           <p>
-            Database is Disconnected. You may use
-            {' '}
+            Database is Disconnected. You may use{' '}
             <button type="button" className="badge badge-light" onClick={(e) => setAlertConnect(e, ':server connect')}>
-
-              <FontAwesomeIcon
-                icon={faPlayCircle}
-                size="lg"
-              />
+              <FontAwesomeIcon icon={faPlayCircle} size="lg" />
               :server connect
-            </button>
-            {' '}
-            to
-            establish connection. There&apos;s a graph waiting for you.
+            </button>{' '}
+            to establish connection. There&apos;s a graph waiting for you.
           </p>
-        )}
+        }
       />
     );
   }
@@ -86,22 +86,16 @@ const SingleAlert = ({
         showIcon
         closable
         message="Database Connected"
-        description={(
+        description={
           <p>
-            Successfully database is connected. You may use
-            {' '}
+            Successfully database is connected. You may use{' '}
             <a href="/#" className="badge badge-light" onClick={(e) => setAlertConnect(e, ':server status')}>
-              <FontAwesomeIcon
-                icon={faPlayCircle}
-                size="lg"
-              />
+              <FontAwesomeIcon icon={faPlayCircle} size="lg" />
               :server status
-            </a>
-            {' '}
-            to
-            confirm connected database information.
+            </a>{' '}
+            to confirm connected database information.
           </p>
-        )}
+        }
       />
     );
   }
@@ -113,14 +107,12 @@ const SingleAlert = ({
         showIcon
         closable
         message="Database Connection Failed"
-        description={(
+        description={
           <>
-            <p>
-              Failed to connect to the database. Are you sure the database is running on the server?
-            </p>
+            <p>Failed to connect to the database. Are you sure the database is running on the server?</p>
             {errorMessage}
           </>
-        )}
+        }
       />
     );
   }
@@ -133,26 +125,18 @@ const SingleAlert = ({
         afterClose={() => clearAlert()}
         message="No Database Connected"
         description={
-        (
           <>
             <p>
-              You haven&apos;t set database connection. You may use
-              {' '}
+              You haven&apos;t set database connection. You may use{' '}
               <a href="/#" className="badge badge-light" onClick={(e) => setAlertConnect(e, ':server connect')}>
-                <FontAwesomeIcon
-                  icon={faPlayCircle}
-                  size="lg"
-                />
+                <FontAwesomeIcon icon={faPlayCircle} size="lg" />
                 :server connect
-              </a>
-              {' '}
-              to
-              establish connection. There&apos;s a graph waiting for you.
+              </a>{' '}
+              to establish connection. There&apos;s a graph waiting for you.
             </p>
             {errorMessage}
           </>
-        )
-      }
+        }
       />
     );
   }
@@ -164,11 +148,7 @@ const SingleAlert = ({
         message="Metadata Load Error"
         showIcon
         closable
-        description={(
-          <p>
-            Unexpectedly error occurred while getting metadata.
-          </p>
-        )}
+        description={<p>Unexpectedly error occurred while getting metadata.</p>}
       />
     );
   }
@@ -180,11 +160,7 @@ const SingleAlert = ({
         showIcon
         closable
         message="Query Error"
-        description={(
-          <p>
-            Your query was not executed properly. Refer the below error message.
-          </p>
-        )}
+        description={<p>Your query was not executed properly. Refer the below error message.</p>}
       />
     );
   }
@@ -196,13 +172,13 @@ const SingleAlert = ({
         showIcon
         closable
         message="Failed to Load Play Target"
-        description={(
+        description={
           <p>
             &apos;
             {errorMessage}
             &apos; does not exists.
           </p>
-        )}
+        }
       />
     );
   }
@@ -214,36 +190,20 @@ const SingleAlert = ({
         showIcon
         closable
         message="Already Connected to Database"
-        description={(
+        description={
           <p>
-            You are currently connected to a database.
-            If you want to access to another database, you may execute
-            <a
-              href="/#"
-              className="badge badge-light"
-              onClick={(e) => setAlertConnect(e, ':server disconnect')}
-            >
-              <FontAwesomeIcon
-                icon={faPlayCircle}
-                size="lg"
-              />
+            You are currently connected to a database. If you want to access to another database, you may execute
+            <a href="/#" className="badge badge-light" onClick={(e) => setAlertConnect(e, ':server disconnect')}>
+              <FontAwesomeIcon icon={faPlayCircle} size="lg" />
               :server disconnect
-            </a>
-            {' '}
+            </a>{' '}
             to disconnect from current database first.
           </p>
-        )}
+        }
       />
     );
   }
-  return (<></>);
-};
-SingleAlert.propTypes = {
-  alertKey: PropTypes.string.isRequired,
-  alertName: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  setCommand: PropTypes.func.isRequired,
-  removeAlert: PropTypes.func.isRequired,
+  return <></>;
 };
 
 export default SingleAlert;

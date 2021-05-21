@@ -15,19 +15,12 @@
  */
 
 import { connect } from 'react-redux';
-import CodeMirrorWrapper from '../presentations/CodeMirrorWrapper';
+import SidebarMeunuToggle from '../presentations/SidebarMeunuToggle';
 
 const mapStateToProps = (state) => ({
-  commandHistory: state.editor.commandHistory.slice(
-    Math.max((state.editor.commandHistory.length - state.setting.maxNumOfHistories === 0
-      ? state.editor.commandHistory.length : state.setting.maxNumOfHistories), 0),
-  ),
-  commandFavorites: state.editor.commandFavorites.slice(0),
+  isActive: state.navigator.isActive,
 });
 
-const mapDispatchToProps = { };
+const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CodeMirrorWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarMeunuToggle);

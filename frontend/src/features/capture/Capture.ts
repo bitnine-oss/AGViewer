@@ -8,7 +8,10 @@ export const Capture = createSlice({
     capturePng: {
       reducer: (state, action) => {
         const frameKey = action.payload.refKey;
-        state.splice(state.findIndex((frame) => (frame.frameProps.key === frameKey)), 1);
+        state.splice(
+          state.findIndex((frame) => frame.frameProps.key === frameKey),
+          1
+        );
         state.map((frame) => {
           html2canvas(frame).then((canvas) => {
             const saveImgLink = canvas.toDataURL();

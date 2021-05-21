@@ -19,9 +19,7 @@ import PropTypes from 'prop-types';
 import CypherResultTableContainer from '../../cypherresult/containers/CypherResultTableContainer';
 import Frame from '../Frame';
 
-const CypherResultFrame = ({
-  refKey, isPinned, reqString, removeFrame, pinFrame,
-}) => (
+const CypherResultFrame = ({ refKey, isPinned, reqString, removeFrame, pinFrame }) => (
   <Frame
     reqString={reqString}
     isPinned={isPinned}
@@ -29,11 +27,11 @@ const CypherResultFrame = ({
     removeFrame={removeFrame}
     refKey={refKey}
     bodyNoPadding
-    content={(
+    content={
       <div className="d-flex h-100">
         <CypherResultTableContainer refKey={refKey} />
       </div>
-      )}
+    }
   />
 );
 

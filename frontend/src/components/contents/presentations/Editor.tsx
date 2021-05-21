@@ -16,13 +16,26 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import uuid from 'react-uuid';
-import PropTypes from 'prop-types';
+import uuid from 'uuid';
 import AlertContainers from '../../alert/containers/AlertContainers';
 import CodeMirror from '../../editor/containers/CodeMirrorWapperContainer';
 import SideBarToggle from '../../editor/containers/SideBarMenuToggleContainer';
 
-const Editor = ({
+interface EditorProps {
+  setCommand: (command: string) => void;
+  command: string;
+  addFrame: (command: string, contentsId: string, key: string) => void;
+  trimFrame: (removeContentsId: string) => void;
+  addAlert: (message: string) => void;
+  alertList: any[];
+  isActive: boolean;
+  database: any;
+  executeCypherQuery: (query: string[]) => Promise<any>;
+  addCommandHistory: (query: string) => void;
+  toggleMenu: (target: string) => void;
+}
+
+const Editor: React.FunctionComponent<EditorProps> = ({
   setCommand,
   command,
   addFrame,
@@ -37,7 +50,7 @@ const Editor = ({
   // addCommandFavorites,
 }) => {
   const dispatch = useDispatch();
-  const [alerts, setAlerts] = useState([]);
+  const [alerts, setAlerts] = useState<JSX.Element[]>([]);
 
   // const favoritesCommand = () => {
   //   dispatch(() => addCommandFavorites(command));
@@ -48,7 +61,7 @@ const Editor = ({
   };
 
   const onClick = () => {
-    const refKey = uuid();
+    const refKey = uuid.v4();
     if (command.toUpperCase().startsWith(':PLAY')) {
       dispatch(() => addFrame(command, 'Contents', refKey));
     } else if (command.toUpperCase() === ':SERVER STATUS') {
@@ -61,7 +74,7 @@ const Editor = ({
       dispatch(() => addFrame(command, 'ServerDisconnect', refKey));
     } else if (database.status === 'disconnected' && command.toUpperCase() === ':SERVER CONNECT') {
       dispatch(() => trimFrame('ServerConnect'));
-      dispatch(() => addFrame(':server connect', 'ServerConnect'));
+      dispatch(() => addFrame(':server connect', 'ServerConnect', refKey));
     } else if (database.status === 'disconnected' && command.toUpperCase().match('(MATCH|CREATE).*')) {
       dispatch(() => trimFrame('ServerConnect'));
       dispatch(() => addAlert('ErrorNoDatabaseConnected'));
@@ -76,14 +89,16 @@ const Editor = ({
       dispatch(() => addFrame(command, 'ServerStatus', refKey));
     } else if (database.status === 'connected') {
       const reqStringValue = command;
-      dispatch(() => executeCypherQuery([refKey, reqStringValue]).then((response) => {
-        if (response.type === 'cypher/executeCypherQuery/fulfilled') {
-          addFrame(reqStringValue, 'CypherResultFrame', refKey);
-        } else if (response.type === 'cypher/executeCypherQuery/rejected') {
-          addFrame(reqStringValue, 'CypherResultFrame', refKey);
-          dispatch(() => addAlert('ErrorCypherQuery'));
-        }
-      }));
+      dispatch(() =>
+        executeCypherQuery([refKey, reqStringValue]).then((response: any) => {
+          if (response.type === 'cypher/executeCypherQuery/fulfilled') {
+            addFrame(reqStringValue, 'CypherResultFrame', refKey);
+          } else if (response.type === 'cypher/executeCypherQuery/rejected') {
+            addFrame(reqStringValue, 'CypherResultFrame', refKey);
+            dispatch(() => addAlert('ErrorCypherQuery'));
+          }
+        })
+      );
     }
     dispatch(() => addCommandHistory(command));
     clearCommand();
@@ -91,14 +106,14 @@ const Editor = ({
 
   useEffect(() => {
     setAlerts(
-      alertList.map((alert) => (
+      alertList.map((alert: any) => (
         <AlertContainers
           key={alert.alertProps.key}
           alertKey={alert.alertProps.key}
           alertName={alert.alertName}
           errorMessage={alert.alertProps.errorMessage}
         />
-      )),
+      ))
     );
   }, [alertList]);
 
@@ -107,26 +122,23 @@ const Editor = ({
       <div className="editor">
         <div className="container-fluid editor-area card-header">
           <div className="input-group input-style">
-            <div style={{
-              height: '60px',
-              width: '60px',
-              color: '#ffffff',
-              textAlign: 'left',
-              lineHeight: '30px',
-            }}
+            <div
+              style={{
+                height: '60px',
+                width: '60px',
+                color: '#ffffff',
+                textAlign: 'left',
+                lineHeight: '30px',
+              }}
             >
-              <spna>
+              <span>
                 Query
                 <br />
                 Editor
-              </spna>
+              </span>
             </div>
             <div className="form-control col-11 editor-code-wrapper">
-              <CodeMirror
-                onClick={onClick}
-                value={command}
-                onChange={setCommand}
-              />
+              <CodeMirror onClick={onClick} value={command} onChange={setCommand} />
             </div>
             <div className="input-group-append ml-auto editor-button-wrapper" id="editor-buttons">
               {/* <button className="frame-head-button btn btn-link"
@@ -136,7 +148,12 @@ const Editor = ({
                   size="lg"
                 />
               </button> */}
-              <button className={command ? 'btn show-eraser' : 'btn hide-eraser'} type="button" id="eraser" onClick={() => clearCommand()}>
+              <button
+                className={command ? 'btn show-eraser' : 'btn hide-eraser'}
+                type="button"
+                id="eraser"
+                onClick={() => clearCommand()}
+              >
                 <i className="icon-eraser" />
               </button>
               <button
@@ -153,14 +170,14 @@ const Editor = ({
                 onClick={() => {
                   toggleMenu('home');
                   if (!isActive) {
-                    document.getElementById('wrapper').classList.remove('wrapper');
-                    document.getElementById('wrapper').classList.add('wrapper-extension-padding');
+                    document.getElementById('wrapper')?.classList.remove('wrapper');
+                    document.getElementById('wrapper')?.classList.add('wrapper-extension-padding');
                   } else {
-                    document.getElementById('wrapper').classList.remove('wrapper-extension-padding');
-                    document.getElementById('wrapper').classList.add('wrapper');
+                    document.getElementById('wrapper')?.classList.remove('wrapper-extension-padding');
+                    document.getElementById('wrapper')?.classList.add('wrapper');
                   }
                 }}
-                title={(isActive) ? 'Hide' : 'Show'}
+                title={isActive ? 'Hide' : 'Show'}
               >
                 <SideBarToggle isActive={isActive} />
               </button>
@@ -171,30 +188,6 @@ const Editor = ({
       {alerts}
     </div>
   );
-};
-
-Editor.propTypes = {
-  setCommand: PropTypes.func.isRequired,
-  command: PropTypes.string.isRequired,
-  addFrame: PropTypes.func.isRequired,
-  trimFrame: PropTypes.func.isRequired,
-  addAlert: PropTypes.func.isRequired,
-  alertList: PropTypes.arrayOf(PropTypes.shape({
-    alertName: PropTypes.string.isRequired,
-    alertProps: PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      alertType: PropTypes.string.isRequired,
-      errorMessage: PropTypes.string.isRequired,
-    }),
-  })).isRequired,
-  isActive: PropTypes.bool.isRequired,
-  database: PropTypes.shape({
-    status: PropTypes.string.isRequired,
-  }).isRequired,
-  executeCypherQuery: PropTypes.func.isRequired,
-  addCommandHistory: PropTypes.func.isRequired,
-  toggleMenu: PropTypes.func.isRequired,
-  // addCommandFavorites: PropTypes.func.isRequired,
 };
 
 export default Editor;

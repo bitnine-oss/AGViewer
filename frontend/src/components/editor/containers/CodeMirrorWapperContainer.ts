@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'antd/dist/antd.css';
-import './static/style.css';
-import './static/navbar-fixed-left.css';
-import './static/google-Poppins.css';
-import './static/icons/css/fontello.css';
-import MainPage from './pages/Main/MainPage';
+import { connect } from 'react-redux';
+import CodeMirrorWrapper from '../presentations/CodeMirrorWrapper';
 
-const App = () => (
-  <React.StrictMode>
-    <MainPage />
-  </React.StrictMode>
-);
+const mapStateToProps = (state) => ({
+  commandHistory: state.editor.commandHistory.slice(
+    Math.max(
+      state.editor.commandHistory.length - state.setting.maxNumOfHistories === 0
+        ? state.editor.commandHistory.length
+        : state.setting.maxNumOfHistories,
+      0
+    )
+  ),
+  commandFavorites: state.editor.commandFavorites.slice(0),
+});
 
-export default App;
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CodeMirrorWrapper);

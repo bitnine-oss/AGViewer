@@ -1,21 +1,16 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'airbnb',
+    'react-app',
+    'react-app/jest',
+    'prettier',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
   ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
-  plugins: ['babel', 'react', 'import', 'react-hooks'],
   rules: {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    'linebreak-style': 0,
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
 };

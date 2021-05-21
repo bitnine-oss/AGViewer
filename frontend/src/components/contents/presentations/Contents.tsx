@@ -20,9 +20,7 @@ import PropTypes from 'prop-types';
 import FramesContainer from '../containers/Frames';
 import styles from './Contents.module.scss';
 
-const Contents = ({
-  database, isActive, getConnectionStatus, getMetaData, getMetaChartData,
-}) => {
+const Contents = ({ database, isActive, getConnectionStatus, getMetaData, getMetaChartData }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

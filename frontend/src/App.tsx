@@ -15,17 +15,18 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/antd.css';
+import './static/style.css';
+import './static/navbar-fixed-left.css';
+import './static/google-Poppins.css';
+import './static/icons/css/fontello.css';
+import MainPage from './pages/Main/MainPage';
 
-import { Provider } from 'react-redux';
-import store from './app/store';
-
-import App from './App';
-import './index.css';
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
+const App = (): JSX.Element => (
+  <React.StrictMode>
+    <MainPage />
+  </React.StrictMode>
 );
+
+export default App;

@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-import { connect } from 'react-redux';
-import SidebarMeunuToggle from '../presentations/SidebarMeunuToggle';
+import React from 'react';
+import DefaultTemplate from '../../components/template/DefaultTemplate';
 
-const mapStateToProps = (state) => ({
-  isActive: state.navigator.isActive,
-});
+const MainPage = (): JSX.Element => <DefaultTemplate />;
 
-const mapDispatchToProps = { };
-
-export default connect(mapStateToProps,
-  mapDispatchToProps)(SidebarMeunuToggle);
+export default MainPage;

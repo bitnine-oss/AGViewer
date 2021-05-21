@@ -20,15 +20,7 @@ import { slides as northwindSlides } from '../../../documents/tutorial/northwind
 import Frame from '../Frame';
 import FrameStyles from '../Frame.module.scss';
 
-const ContentFrame = ({
-  refKey,
-  isPinned,
-  reqString,
-  playTarget,
-  removeFrame,
-  pinFrame,
-  addAlert,
-}) => {
+const ContentFrame = ({ refKey, isPinned, reqString, playTarget, removeFrame, pinFrame, addAlert }) => {
   const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -58,7 +50,7 @@ const ContentFrame = ({
             border: 0,
             opacity: '0.5',
           }}
-        />,
+        />
       );
     }
     return carousel;
@@ -72,32 +64,33 @@ const ContentFrame = ({
       pinFrame={pinFrame}
       removeFrame={removeFrame}
       refKey={refKey}
-      content={(
+      content={
         <div
           className={`${FrameStyles.FlexContentWrapper} ${FrameStyles.DefaultLimitWrapper}`}
           id={refKey}
           style={{ padding: 'initial' }}
         >
-
-          <div style={{
-            flex: 1,
-            padding: '15px 30px',
-            overflowY: 'auto',
-          }}
+          <div
+            style={{
+              flex: 1,
+              padding: '15px 30px',
+              overflowY: 'auto',
+            }}
           >
             {slides[currentSlide]}
           </div>
-          <div style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '1rem',
-          }}
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '1rem',
+            }}
           >
             {genCarousel()}
           </div>
         </div>
-      )}
+      }
     />
   );
 };
