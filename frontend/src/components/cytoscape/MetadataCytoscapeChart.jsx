@@ -9,6 +9,7 @@ import euler from 'cytoscape-euler';
 import avsdf from 'cytoscape-avsdf';
 import spread from 'cytoscape-spread';
 import CytoscapeComponent from 'react-cytoscapejs';
+import sortnodelabel from '../../lib/cytoscape-sortnode-label/cytoscape-bitnine-sortnode-label';
 import { seletableLayouts } from './CytoscapeLayouts';
 import { stylesheet } from './CytoscapeStyleSheet';
 
@@ -21,6 +22,7 @@ cytoscape.use(klay);
 cytoscape.use(euler);
 cytoscape.use(avsdf);
 cytoscape.use(spread);
+cytoscape.use(sortnodelabel);
 
 const MetadataCytoscapeChart = ({ elements }) => {
   const [cytoscapeObject, setCytoscapeObject] = useState(null);

@@ -130,6 +130,7 @@ const CypherResultCytoscapeFooter = ({
             <option value="euler">Euler</option>
             <option value="avsdf">Avsdf</option>
             <option value="spread">Spread</option>
+            <option value="sortnode">SortNode-Label</option>
           </select>
         </div>
       );
@@ -300,6 +301,7 @@ const CypherResultCytoscapeFooter = ({
           <option value="euler">Euler</option>
           <option value="avsdf">Avsdf</option>
           <option value="spread">Spread</option>
+          <option value="sortnode">SortNode-Label</option>
         </select>
       </div>
     );

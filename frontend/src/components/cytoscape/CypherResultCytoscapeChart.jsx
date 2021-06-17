@@ -32,6 +32,7 @@ import {
   faProjectDiagram,
   faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
+import sortnodelabel from '../../lib/cytoscape-sortnode-label/cytoscape-bitnine-sortnode-label';
 import cxtmenu from '../../lib/cytoscape-cxtmenu-bitnine';
 import { initLocation, seletableLayouts } from './CytoscapeLayouts';
 import { stylesheet } from './CytoscapeStyleSheet';
@@ -46,6 +47,7 @@ cytoscape.use(euler);
 cytoscape.use(avsdf);
 cytoscape.use(spread);
 cytoscape.use(cxtmenu);
+cytoscape.use(sortnodelabel);
 
 const CypherResultCytoscapeCharts = ({
   elements, cytoscapeObject, setCytoscapeObject, cytoscapeLayout, maxDataOfGraph,

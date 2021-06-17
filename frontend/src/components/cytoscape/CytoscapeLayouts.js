@@ -454,6 +454,22 @@ const spreadLayout = {
   randomize: false, // Uses random initial node positions on true
 };
 
+const sortNodeLabelLayout = {
+  name: 'SortNodeLabel',
+  idealEdgeLength: 100,
+  refresh: 300,
+  nodeDimensionsIncludeLabels: true,
+  fit: false,
+  randomize: true,
+  padding: 10,
+  nodeRepulsion: 9500,
+  stop(event) {
+    event.cy.nodes().forEach((ele) => {
+      initLocation[ele.id()] = { x: ele.position().x, y: ele.position().y };
+    });
+  },
+};
+
 export const seletableLayouts = {
   random: randomLayout,
   grid: gridLayout,
@@ -467,6 +483,7 @@ export const seletableLayouts = {
   euler: eulerLayout,
   avsdf: avsdfLayout,
   spread: spreadLayout,
+  sortnode: sortNodeLabelLayout,
 };
 
 export const defaultLayout = seletableLayouts.coseBilkent;
