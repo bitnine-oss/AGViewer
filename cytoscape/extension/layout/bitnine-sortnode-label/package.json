@@ -1,0 +1,55 @@
+{
+  "name": "cytoscape-bitnine-sortnode-label",
+  "version": "1.0.0",
+  "description": "The cytoscape layout bitnine-sortnode-label",
+  "main": "cytoscape-bitnine-sortnode-label.js",
+  "author": {
+    "name": "Shinhanbyeol",
+    "email": "hb.shin@bitnine.net"
+  },
+  "scripts": {
+    "postpublish": "run-s gh-pages",
+    "gh-pages": "gh-pages -d pages",    
+    "lint": "eslint src",
+    "build": "cross-env NODE_ENV=production webpack",
+    "build:min": "cross-env NODE_ENV=production MIN=true webpack",
+    "build:release": "run-s build copyright",
+    "watch": "webpack --progress --watch",
+    "dev": "webpack-dev-server --open",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "cytoscape",
+    "cytoscape-extension"
+  ],  
+  "bugs": {
+    "url": ""
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.1",
+    "camelcase": "^4.1.0",
+    "chai": "4.0.2",
+    "cpy-cli": "^1.0.1",
+    "cross-env": "^5.2.1",
+    "eslint": "^3.9.1",
+    "gh-pages": "^1.0.0",
+    "mocha": "3.4.2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^2.7.1",    
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.11.5"
+  },
+  "peerDependencies": {
+    "cytoscape": "^3.2.0"
+  },
+  "dependencies": {
+    "webcola": "^3.4.0",
+    "lodash.debounce": "^4.0.8"
+  }
+}
