@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /*
- * Copyright 2020 Bitnine Co., Ltd.
+ * Copyright 2021 Bitnine Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,9 +123,14 @@ SortNodeLabel.prototype.run = function () {
   // puts all nodes at (0, 0)
   // n.b. most layouts would use layoutPositions(), instead of positions() and manual events  
 
+  var onlyUnique = function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  };
+
   var labels = eles.nodes().map(function (node) {
     return node.data().label;
   });
+  labels = labels.filter(onlyUnique);
   var lablesSortNumber = labels.map(function () {
     return 0;
   });
@@ -165,7 +170,7 @@ module.exports = SortNodeLabel;
 
 
 /*
- * Copyright 2020 Bitnine Co., Ltd.
+ * Copyright 2021 Bitnine Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,7 +200,7 @@ module.exports = defaults;
 
 
 /*
- * Copyright 2020 Bitnine Co., Ltd.
+ * Copyright 2021 Bitnine Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -241,7 +246,7 @@ module.exports = extend;
 
 
 /*
- * Copyright 2020 Bitnine Co., Ltd.
+ * Copyright 2021 Bitnine Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -268,6 +273,7 @@ var register = function register(cytoscape) {
 
 if (typeof cytoscape !== 'undefined') {
   // expose to global cytoscape (i.e. window.cytoscape)  
+  // eslint-disable-next-line no-undef
   register(cytoscape);
 }
 

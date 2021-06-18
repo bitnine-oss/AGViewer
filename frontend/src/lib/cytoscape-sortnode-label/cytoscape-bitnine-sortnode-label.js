@@ -84,6 +84,21 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 
+/*
+ * Copyright 2021 Bitnine Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var extend = __webpack_require__(2);
 var defaults = __webpack_require__(1);
 
@@ -109,9 +124,14 @@ SortNodeLabel.prototype.run = function () {
   // puts all nodes at (0, 0)
   // n.b. most layouts would use layoutPositions(), instead of positions() and manual events  
 
+  var onlyUnique = function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  };
+
   var labels = eles.nodes().map(function (node) {
     return node.data().label;
   });
+  labels = labels.filter(onlyUnique);
   var lablesSortNumber = labels.map(function () {
     return 0;
   });
@@ -150,6 +170,21 @@ module.exports = SortNodeLabel;
 "use strict";
 
 
+/*
+ * Copyright 2021 Bitnine Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 // default layout options
 var defaults = {
   ready: function ready() {}, // on layoutready
@@ -165,6 +200,21 @@ module.exports = defaults;
 "use strict";
 
 
+/*
+ * Copyright 2021 Bitnine Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var extend = Object.assign != null ? Object.assign.bind(Object) : function (tgt) {
   var args = arguments;
 
@@ -196,6 +246,21 @@ module.exports = extend;
 "use strict";
 
 
+/*
+ * Copyright 2021 Bitnine Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var impl = __webpack_require__(0);
 
 // registers the extension on a cytoscape lib ref
@@ -208,7 +273,8 @@ var register = function register(cytoscape) {
 };
 
 if (typeof cytoscape !== 'undefined') {
-  // expose to global cytoscape (i.e. window.cytoscape)
+  // expose to global cytoscape (i.e. window.cytoscape)  
+  // eslint-disable-next-line no-undef
   register(cytoscape);
 }
 

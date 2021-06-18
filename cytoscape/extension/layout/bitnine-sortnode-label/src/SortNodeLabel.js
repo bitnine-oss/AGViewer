@@ -38,14 +38,19 @@ SortNodeLabel.prototype.run = function(){
   // puts all nodes at (0, 0)
   // n.b. most layouts would use layoutPositions(), instead of positions() and manual events  
 
-  const labels = eles.nodes().map((node) => node.data().label);
+  const onlyUnique = (value, index, self) => {
+    return self.indexOf(value) === index;
+  };
+
+  let labels = eles.nodes().map((node) => node.data().label);
+  labels = labels.filter(onlyUnique);
   let lablesSortNumber = labels.map(() => 0 );
   
   eles.nodes().positions( function(node){    
     let verticalLineIndex =  labels.indexOf(node.data().label);    
     lablesSortNumber[verticalLineIndex] = lablesSortNumber[verticalLineIndex] + 1;
     return {
-      x: 300 * verticalLineIndex + 100,
+      x: (300 * verticalLineIndex) + 100,
       y: lablesSortNumber[verticalLineIndex] * 100
     };
   });
