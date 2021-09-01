@@ -1,4 +1,12 @@
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+# Git Store Transfer Notification
+
+The AG Viewer project has been moved to Apache/incubator-age-viewer.
+
+Future AGView developments are at https://github.com/apache/incubator-age-viewer 
+
+
+<!-- [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 # Goal of AGViewer
 
 AGViewer is graph visualisation tool, for AgensGraph or Apache AGE.
@@ -30,4 +38,4 @@ pm2 start ecosystem.config.js
 ```
 
 # License
-AGViewer is licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
+AGViewer is licensed under the Apache License, Version 2.0. See LICENSE for the full license text. -->
