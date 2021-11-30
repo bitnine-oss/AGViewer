@@ -1,7 +1,6 @@
+# Deprecated !!
 
-# Git Store Transfer Notification
-
-The AG Viewer project has been moved to Apache/incubator-age-viewer.
+## AGViewer project has been moved to [Apache AGE Viewer](https://github.com/apache/incubator-age-viewer)
 
 Future AGView developments are at https://github.com/apache/incubator-age-viewer 
 
