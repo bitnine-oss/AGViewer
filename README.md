@@ -1,9 +1,9 @@
 # Deprecated !!
 
-## AGViewer repository has been moved to [Apache AGE Viewer](https://github.com/apache/incubator-age-viewer)
+## AGViewer repository has been moved to [Apache AGE Viewer](https://github.com/apache/age-viewer)
 
 Bitnine donated AGViewer project to Apache Foundation.
-Subsequent developments go on at https://github.com/apache/incubator-age-viewer 
+Subsequent developments moved to https://github.com/apache/age-viewer 
 
 
 <!-- [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
